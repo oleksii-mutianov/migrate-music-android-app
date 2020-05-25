@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="confirm_label">Подтвердить</string>
+    <string name="selected_folder_label">Выбранная папка:</string>
+    <string name="up_label">Вверх</string>
+    <string name="cancel_label">Отмена</string>
+</resources>

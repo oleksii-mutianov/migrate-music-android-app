@@ -8,7 +8,6 @@ import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
-import net.rdrei.android.dirchooser.DirectoryChooserConfig
 import net.rdrei.android.dirchooser.DirectoryChooserFragment
 
 class MainActivity : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInteractionListener {
@@ -18,11 +17,7 @@ class MainActivity : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInt
         private const val READ_STORAGE_PERMISSION = 1
     }
 
-    private val chooserFragment: DirectoryChooserFragment = DirectoryChooserFragment
-            .newInstance(DirectoryChooserConfig.builder()
-                    .newDirectoryName("DialogSample")
-                    .build()
-            )
+    private val chooserFragment: DirectoryChooserFragment = DirectoryChooserFragment.newInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +28,7 @@ class MainActivity : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInt
         }
 
         btnChoose.setOnClickListener {
-            chooserFragment.show(fragmentManager, null)
+            chooserFragment.show(supportFragmentManager, null)
         }
     }
 
