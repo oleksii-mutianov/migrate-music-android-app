@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.FileObserver;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -41,16 +40,15 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class DirectoryChooserFragment extends DialogFragment {
+
     public static final String KEY_CURRENT_DIRECTORY = "CURRENT_DIRECTORY";
     private static final String TAG = DirectoryChooserFragment.class.getSimpleName();
 
     private Option<OnFragmentInteractionListener> mListener = Option.none();
 
     private Button mBtnConfirm;
-    private Button mBtnCancel;
     private ImageButton mBtnNavUp;
     private TextView mTxtvSelectedFolder;
-    private ListView mListDirectories;
 
     private ArrayAdapter<String> mListDirectoriesAdapter;
     private List<String> mFilenames;
@@ -91,10 +89,8 @@ public class DirectoryChooserFragment extends DialogFragment {
         final View view = inflater.inflate(R.layout.directory_chooser, container, false);
 
         mBtnConfirm = view.findViewById(R.id.btnConfirm);
-        mBtnCancel = view.findViewById(R.id.btnCancel);
         mBtnNavUp = view.findViewById(R.id.btnNavUp);
         mTxtvSelectedFolder = view.findViewById(R.id.txtvSelectedFolder);
-        mListDirectories = view.findViewById(R.id.directoryList);
 
         mBtnConfirm.setOnClickListener(new OnClickListener() {
 
@@ -106,7 +102,7 @@ public class DirectoryChooserFragment extends DialogFragment {
             }
         });
 
-        mBtnCancel.setOnClickListener(new OnClickListener() {
+        view.<Button>findViewById(R.id.btnCancel).setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(final View v) {
@@ -119,6 +115,7 @@ public class DirectoryChooserFragment extends DialogFragment {
             }
         });
 
+        ListView mListDirectories = view.findViewById(R.id.directoryList);
         mListDirectories.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
@@ -126,11 +123,8 @@ public class DirectoryChooserFragment extends DialogFragment {
                                     final int position, final long id) {
                 debug("Selected index: %d", position);
                 File file = mFilesInDir[position];
-                if (mFilesInDir != null
-                        && position >= 0
-                        && position < mFilesInDir.length
-                        && file.isDirectory()) {
 
+                if (file.isDirectory()) {
                     changeDirectory(file);
                 }
             }
@@ -158,30 +152,6 @@ public class DirectoryChooserFragment extends DialogFragment {
         changeDirectory(Environment.getExternalStorageDirectory());
 
         return view;
-    }
-
-    private void adjustResourceLightness() {
-        // change up button to light version if using dark theme
-        int color = 0xFFFFFF;
-        final Resources.Theme theme = getActivity().getTheme();
-
-        if (theme != null) {
-            final TypedArray backgroundAttributes = theme.obtainStyledAttributes(
-                    new int[]{android.R.attr.colorBackground}
-            );
-
-            if (backgroundAttributes != null) {
-                color = backgroundAttributes.getColor(0, 0xFFFFFF);
-                backgroundAttributes.recycle();
-            }
-        }
-
-        // convert to greyscale and check if < 128
-        if (color != 0xFFFFFF && 0.21 * Color.red(color) +
-                0.72 * Color.green(color) +
-                0.07 * Color.blue(color) < 128) {
-            mBtnNavUp.setImageResource(R.drawable.navigation_up_light);
-        }
     }
 
     @Override
@@ -218,6 +188,32 @@ public class DirectoryChooserFragment extends DialogFragment {
         if (mFileObserver != null) {
             mFileObserver.startWatching();
         }
+    }
+
+    private void adjustResourceLightness() {
+        // change up button to light version if using dark theme
+        int color = 0xFFFFFF;
+        final Resources.Theme theme = getActivity().getTheme();
+
+        if (theme != null) {
+            final TypedArray backgroundAttributes = theme.obtainStyledAttributes(
+                    new int[]{android.R.attr.colorBackground}
+            );
+
+            color = backgroundAttributes.getColor(0, 0xFFFFFF);
+            backgroundAttributes.recycle();
+        }
+
+        // convert to greyscale and check if < 128
+        if (color != 0xFFFFFF && getConvertedColor(color) < 128) {
+            mBtnNavUp.setImageResource(R.drawable.navigation_up_light);
+        }
+    }
+
+    private double getConvertedColor(int color) {
+        return 0.21 * Color.red(color)
+                + 0.72 * Color.green(color)
+                + 0.07 * Color.blue(color);
     }
 
     /**
@@ -324,7 +320,6 @@ public class DirectoryChooserFragment extends DialogFragment {
                 }
             });
         }
-
     }
 
     /**
@@ -332,10 +327,6 @@ public class DirectoryChooserFragment extends DialogFragment {
      */
     private boolean isValidFile(final File file) {
         return (file != null && file.isDirectory() && file.canRead());
-    }
-
-    public void setDirectoryChooserListener(@Nullable final OnFragmentInteractionListener listener) {
-        mListener = Option.option(listener);
     }
 
     /**

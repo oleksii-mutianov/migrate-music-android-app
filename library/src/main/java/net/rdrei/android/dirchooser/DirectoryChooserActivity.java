@@ -16,7 +16,7 @@ import android.view.MenuItem;
  */
 public class DirectoryChooserActivity extends AppCompatActivity implements
         DirectoryChooserFragment.OnFragmentInteractionListener {
-    public static final String EXTRA_CONFIG = "config";
+
     public static final String RESULT_SELECTED_DIR = "selected_dir";
     public static final int RESULT_CODE_DIR_SELECTED = 1;
 
@@ -32,14 +32,6 @@ public class DirectoryChooserActivity extends AppCompatActivity implements
             fragmentManager.beginTransaction()
                     .add(R.id.main, fragment)
                     .commit();
-        }
-    }
-
-    void setupActionBar() {
-        // there might not be an ActionBar, for example when started in Theme.Holo.Dialog.NoActionBar theme
-        @SuppressLint("AppCompatMethod") final ActionBar actionBar = getActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
 
@@ -69,5 +61,13 @@ public class DirectoryChooserActivity extends AppCompatActivity implements
     public void onCancelChooser() {
         setResult(RESULT_CANCELED);
         finish();
+    }
+
+    private void setupActionBar() {
+        // there might not be an ActionBar, for example when started in Theme.Holo.Dialog.NoActionBar theme
+        @SuppressLint("AppCompatMethod") final ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 }
