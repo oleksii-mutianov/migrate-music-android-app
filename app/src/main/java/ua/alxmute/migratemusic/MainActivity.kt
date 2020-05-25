@@ -2,6 +2,7 @@ package ua.alxmute.migratemusic
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
@@ -33,8 +34,12 @@ class MainActivity : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInt
     }
 
     override fun onSelectDirectory(path: String) {
-        textDirectory.text = path
         chooserFragment.dismiss()
+
+        val intent = Intent(this, FileProcessingActivity::class.java).apply {
+            putExtra("path", path)
+        }
+        startActivity(intent)
     }
 
     override fun onCancelChooser() {
