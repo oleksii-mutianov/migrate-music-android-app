@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -14,13 +15,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:theme">
-        <activity android:name=".FileProcessingActivity"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".SpotifyLoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".FileProcessingActivity" />
+        <activity android:name=".MainActivity">
+
         </activity>
     </application>
 

@@ -1,3 +1,4 @@
 rootProject.name='migrate-music-to-spotify-android-app'
 include ':library'
+include ':spotify-auth-release-1.1.0'
 include ':app'

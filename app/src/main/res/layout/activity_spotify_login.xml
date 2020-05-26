@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_margin="8dp"
+    android:orientation="vertical">
+
+
+    <Button
+        android:id="@+id/spotifyLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Login" />
+
+    <TextView
+        android:id="@+id/tokenTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <Button
+        android:id="@+id/codeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="request code" />
+
+    <TextView
+        android:id="@+id/codeTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <Button
+        android:id="@+id/getProfileButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Get profile" />
+
+    <TextView
+        android:id="@+id/profileTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+</LinearLayout>
