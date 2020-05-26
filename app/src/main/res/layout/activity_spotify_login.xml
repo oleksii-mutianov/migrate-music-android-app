@@ -10,6 +10,7 @@
         android:id="@+id/spotifyLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="onSpotifyLoginClick"
         android:text="Login" />
 
     <TextView
@@ -31,10 +32,11 @@
         android:text="TextView" />
 
     <Button
-        android:id="@+id/getProfileButton"
+        android:id="@+id/requestTrackButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Get profile" />
+        android:onClick="requestTrack"
+        android:text="request Track" />
 
     <TextView
         android:id="@+id/profileTextView"
