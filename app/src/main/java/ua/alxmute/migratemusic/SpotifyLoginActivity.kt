@@ -5,8 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.google.gson.Gson
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
@@ -24,7 +23,7 @@ class SpotifyLoginActivity : AppCompatActivity() {
     }
 
     private val httpClient = OkHttpClient()
-    private val objectMapper = jacksonObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+    private val gson = Gson()
 
     private var accessToken: String? = null
     private var accessCode: String? = null
@@ -44,7 +43,7 @@ class SpotifyLoginActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val result = objectMapper.readValue(response.body()!!.string(), SearchResponse::class.java).tracks
+                val result = gson.fromJson(response.body()!!.string(), SearchResponse::class.java).tracks
                 if (result.total > 0) {
                     val track = result.items[0]
                     setResponse("${track.artists[0].name} - ${track.name} (${track.id})")
@@ -87,24 +86,28 @@ class SpotifyLoginActivity : AppCompatActivity() {
 
         val trackName = "linkin park numb".replace(" ", "+")
 
-        val request = Request.Builder()
+        val searchTrackRequest = Request.Builder()
             .url("https://api.spotify.com/v1/search?type=track&q=$trackName&limit=1")
             .addHeader("Authorization", "Bearer $accessToken")
             .get()
             .build()
 
-//        val trackId = "0VjIjW4GlUZAMYd2vXMi3b"
-//        val requestAddTrack = Request.Builder()
-//            .url("https://spclient.wg.spotify.com/collection-view/v1/collection/tracks/2164gakoiseo3txu67vedncmy?base62ids=$trackId&model=bookmark")
-//            .addHeader("Authorization", "Bearer $mAccessToken")
-//            .get()
-//            .build()
+        cancelCall() // TODO: ???
 
-        cancelCall()
-
-        mCall = httpClient.newCall(request)
+        mCall = httpClient.newCall(searchTrackRequest)
         mCall?.enqueue(spotifyHttpCallback)
 
+    }
+
+    fun addTrack(view: View) {
+        val trackId = "4NjcBu9yymywoxK1l9tdBE"
+        val addTrackRequest = Request.Builder()
+            .url("https://api.spotify.com/v1/me/tracks?ids=$trackId")
+            .addHeader("Authorization", "Bearer $accessToken")
+            .get()
+            .build()
+
+        mCall = httpClient.newCall(addTrackRequest)
     }
 
     private fun updateTokenView() {
@@ -114,32 +117,6 @@ class SpotifyLoginActivity : AppCompatActivity() {
     private fun updateCodeView() {
         codeTextView.text = getString(R.string.code, accessCode)
     }
-
-//    private fun requestUserProfile() {
-//        val request = Request.Builder()
-//            .url("https://api.spotify.com/v1/me")
-//            .addHeader("Authorization", "Bearer $mAccessToken")
-//            .build()
-//
-//        cancelCall()
-//
-//        mCall = httpClient.newCall(request)
-//        mCall?.enqueue(object : Callback {
-//            override fun onFailure(call: Call, e: IOException) {
-//                setResponse("Failed to fetch data: $e")
-//            }
-//
-//            @Throws(IOException::class)
-//            override fun onResponse(call: Call, response: Response) {
-//                try {
-//                    val jsonObject = JSONObject(response.body()!!.string())
-//                    setResponse(jsonObject.toString(3))
-//                } catch (e: JSONException) {
-//                    setResponse("Failed to parse data: $e")
-//                }
-//            }
-//        })
-//    }
 
     private fun setResponse(text: String) {
         runOnUiThread {
@@ -154,7 +131,7 @@ class SpotifyLoginActivity : AppCompatActivity() {
     private fun getAuthenticationRequest(type: AuthenticationResponse.Type): AuthenticationRequest {
         return AuthenticationRequest.Builder(CLIENT_ID, type, redirectUri.toString())
             .setShowDialog(false)
-            .setScopes(arrayOf("user-read-email"))
+            .setScopes(arrayOf("user-read-email", "user-library-modify"))
             .setCampaign("your-campaign-token")
             .build()
     }
