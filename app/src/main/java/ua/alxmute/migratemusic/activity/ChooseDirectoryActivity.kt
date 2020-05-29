@@ -1,4 +1,4 @@
-package ua.alxmute.migratemusic
+package ua.alxmute.migratemusic.activity
 
 import android.Manifest
 import android.content.Context
@@ -10,6 +10,7 @@ import android.widget.Toast
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_choose_directory.*
 import net.rdrei.android.dirchooser.DirectoryChooserFragment
+import ua.alxmute.migratemusic.R
 import ua.alxmute.migratemusic.data.ContextHolder
 import javax.inject.Inject
 

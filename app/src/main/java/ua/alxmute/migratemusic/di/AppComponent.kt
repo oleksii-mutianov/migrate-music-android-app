@@ -6,7 +6,7 @@ import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import dagger.android.support.AndroidSupportInjectionModule
-import ua.alxmute.migratemusic.AndroidSampleApp
+import ua.alxmute.migratemusic.MusicMigrationApp
 import ua.alxmute.migratemusic.di.module.ContextHolderModule
 import ua.alxmute.migratemusic.di.module.NetworkModule
 import javax.inject.Singleton
@@ -29,7 +29,7 @@ interface AppComponent : AndroidInjector<DaggerApplication> {
         fun build(): AppComponent?
     }
 
-    fun inject(app: AndroidSampleApp)
+    fun inject(app: MusicMigrationApp)
 
     override fun inject(instance: DaggerApplication)
 

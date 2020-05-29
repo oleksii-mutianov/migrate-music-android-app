@@ -1,7 +1,8 @@
-package ua.alxmute.migratemusic
+package ua.alxmute.migratemusic.activity
 
 import android.os.Bundle
 import dagger.android.support.DaggerAppCompatActivity
+import ua.alxmute.migratemusic.R
 import ua.alxmute.migratemusic.data.ContextHolder
 import ua.alxmute.migratemusic.service.FileWalker
 import java.io.File

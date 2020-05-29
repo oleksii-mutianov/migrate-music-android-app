@@ -2,9 +2,9 @@ package ua.alxmute.migratemusic.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import ua.alxmute.migratemusic.ChooseDirectoryActivity
-import ua.alxmute.migratemusic.ChooseMusicServiceActivity
-import ua.alxmute.migratemusic.FileProcessingActivity
+import ua.alxmute.migratemusic.activity.ChooseDirectoryActivity
+import ua.alxmute.migratemusic.activity.ChooseMusicServiceActivity
+import ua.alxmute.migratemusic.activity.FileProcessingActivity
 
 
 @Module

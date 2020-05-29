@@ -1,4 +1,4 @@
-package ua.alxmute.migratemusic
+package ua.alxmute.migratemusic.activity
 
 import android.content.Intent
 import android.net.Uri
@@ -9,6 +9,7 @@ import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import dagger.android.AndroidInjection
 import dagger.android.support.DaggerAppCompatActivity
+import ua.alxmute.migratemusic.R
 import ua.alxmute.migratemusic.data.ContextHolder
 import javax.inject.Inject
 
