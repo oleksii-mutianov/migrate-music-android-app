@@ -1,4 +1,4 @@
-package ua.alxmute.migratemusic.config
+package ua.alxmute.migratemusic.di.module
 
 import com.google.gson.Gson
 import dagger.Module

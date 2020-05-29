@@ -1,13 +1,13 @@
 package ua.alxmute.migratemusic
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import dagger.android.support.DaggerAppCompatActivity
 import ua.alxmute.migratemusic.data.ContextHolder
 import ua.alxmute.migratemusic.service.FileWalker
 import java.io.File
 import javax.inject.Inject
 
-class FileProcessingActivity : AppCompatActivity() {
+class FileProcessingActivity : DaggerAppCompatActivity() {
 
     @Inject
     lateinit var contextHolder: ContextHolder

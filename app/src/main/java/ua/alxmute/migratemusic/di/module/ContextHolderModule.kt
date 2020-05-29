@@ -1,4 +1,4 @@
-package ua.alxmute.migratemusic.config
+package ua.alxmute.migratemusic.di.module
 
 import dagger.Module
 import dagger.Provides

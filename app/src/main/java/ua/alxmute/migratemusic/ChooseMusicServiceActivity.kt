@@ -3,16 +3,16 @@ package ua.alxmute.migratemusic
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import dagger.android.AndroidInjection
+import dagger.android.support.DaggerAppCompatActivity
 import ua.alxmute.migratemusic.data.ContextHolder
 import javax.inject.Inject
 
-class ChooseMusicServiceActivity : AppCompatActivity() {
+class ChooseMusicServiceActivity : DaggerAppCompatActivity() {
 
     companion object {
         const val CLIENT_ID = "eff51993ba68441c92f1a1036ef2607e"

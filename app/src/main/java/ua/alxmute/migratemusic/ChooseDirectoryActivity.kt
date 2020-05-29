@@ -6,14 +6,14 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
-import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
+import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_choose_directory.*
 import net.rdrei.android.dirchooser.DirectoryChooserFragment
 import ua.alxmute.migratemusic.data.ContextHolder
 import javax.inject.Inject
 
-class ChooseDirectoryActivity : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInteractionListener {
+class ChooseDirectoryActivity : DaggerAppCompatActivity(), DirectoryChooserFragment.OnFragmentInteractionListener {
 
     companion object {
         private val PERMISSIONS = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
