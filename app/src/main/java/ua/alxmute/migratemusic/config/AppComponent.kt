@@ -1,7 +1,9 @@
 package ua.alxmute.migratemusic.config
 
 import dagger.Component
-import ua.alxmute.migratemusic.SpotifyLoginActivity
+import ua.alxmute.migratemusic.ChooseDirectoryActivity
+import ua.alxmute.migratemusic.ChooseMusicServiceActivity
+import ua.alxmute.migratemusic.FileProcessingActivity
 import javax.inject.Singleton
 
 @Singleton
@@ -13,5 +15,11 @@ import javax.inject.Singleton
     ]
 )
 interface AppComponent {
-    fun inject(spotifyLoginActivity: SpotifyLoginActivity)
+
+    fun inject(chooseMusicServiceActivity: ChooseMusicServiceActivity)
+
+    fun inject(chooseDirectoryActivity: ChooseDirectoryActivity)
+
+    fun inject(fileProcessingActivity: FileProcessingActivity)
+
 }

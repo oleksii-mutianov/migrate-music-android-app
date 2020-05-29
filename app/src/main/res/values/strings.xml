@@ -4,6 +4,5 @@
     <string name="none">none</string>
     <string name="btn_choose">Choose music directory</string>
 
-    <string name="code">Code: %1$s</string>
-    <string name="token">Access Token: %1$s</string>
+    <string name="choose_your_target_service">Choose your target service:</string>
 </resources>
