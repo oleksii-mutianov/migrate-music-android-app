@@ -9,7 +9,7 @@ import ua.alxmute.migratemusic.chain.AddTrackChain
 import ua.alxmute.migratemusic.data.ContextHolder
 import ua.alxmute.migratemusic.data.MusicServiceName
 import ua.alxmute.migratemusic.di.MusicServiceNameKey
-import ua.alxmute.migratemusic.service.AddTracksService
+import ua.alxmute.migratemusic.service.MusicProcessorService
 import ua.alxmute.migratemusic.strategy.DeezerMusicServiceStrategy
 import ua.alxmute.migratemusic.strategy.MusicServiceStrategy
 import ua.alxmute.migratemusic.strategy.SpotifyMusicServiceStrategy
@@ -40,9 +40,9 @@ class MusicServiceStrategyModule {
     @Provides
     @Singleton
     @JvmSuppressWildcards
-    fun addMusicService(
+    fun musicProcessorService(
         strategies: Map<MusicServiceName, MusicServiceStrategy>,
         contextHolder: ContextHolder,
         addTrackChain: AddTrackChain
-    ): AddTracksService = AddTracksService(strategies, contextHolder, addTrackChain)
+    ): MusicProcessorService = MusicProcessorService(strategies, contextHolder, addTrackChain)
 }

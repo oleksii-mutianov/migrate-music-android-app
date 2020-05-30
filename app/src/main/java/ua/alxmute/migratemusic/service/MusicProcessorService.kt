@@ -1,12 +1,16 @@
 package ua.alxmute.migratemusic.service
 
 import android.util.Log
+import ua.alxmute.migratemusic.chain.AddTrackChain
+import ua.alxmute.migratemusic.data.ContextHolder
 import ua.alxmute.migratemusic.data.LocalTrackDto
-import javax.inject.Inject
+import ua.alxmute.migratemusic.data.MusicServiceName
+import ua.alxmute.migratemusic.strategy.MusicServiceStrategy
 
-class MusicProcessorService
-@Inject constructor(
-    private val tracksService: AddTracksService
+class MusicProcessorService(
+    private val musicServiceStrategies: Map<MusicServiceName, MusicServiceStrategy>,
+    private val contextHolder: ContextHolder,
+    private val addTrackChain: AddTrackChain
 ) {
 
     fun addTracks(tracks: List<LocalTrackDto>) {
@@ -14,8 +18,10 @@ class MusicProcessorService
         val successfulList = ArrayList<LocalTrackDto>()
         val unsuccessfulList = ArrayList<LocalTrackDto>()
 
+        val musicServiceStrategy = musicServiceStrategies.getValue(contextHolder.musicServiceName)
+
         tracks.forEach { localTrackDto ->
-            val result: Boolean = tracksService.addTrack(localTrackDto)
+            val result: Boolean = addTrackChain.handle(localTrackDto, musicServiceStrategy)
             if (result) {
                 successfulList.add(localTrackDto)
                 Log.d("success", "${localTrackDto.author} ${localTrackDto.title}")
