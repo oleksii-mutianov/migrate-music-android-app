@@ -23,9 +23,6 @@ class ChooseMusicServiceActivity : DaggerAppCompatActivity() {
     @Inject
     lateinit var contextHolder: ContextHolder
 
-//    @Inject
-//    lateinit var spotifyService: SpotifyService
-
     private val redirectUri: Uri by lazy {
         Uri.Builder()
             .scheme(getString(R.string.com_spotify_sdk_redirect_scheme))
@@ -43,12 +40,13 @@ class ChooseMusicServiceActivity : DaggerAppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         val response = AuthenticationClient.getResponse(resultCode, data)
 
-        if (AUTH_TOKEN_REQUEST_CODE == requestCode) {
-            contextHolder.token = response.accessToken
-//            updateTokenView()
-        }
+        if (response.type != AuthenticationResponse.Type.EMPTY) {
+            if (AUTH_TOKEN_REQUEST_CODE == requestCode) {
+                contextHolder.token = response.accessToken
+            }
 
-        startActivity(Intent(this, ChooseDirectoryActivity::class.java))
+            startActivity(Intent(this, ChooseDirectoryActivity::class.java))
+        }
     }
 
     fun onSpotifyLoginClick(view: View) {
