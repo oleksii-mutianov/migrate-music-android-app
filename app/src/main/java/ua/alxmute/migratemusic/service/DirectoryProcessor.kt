@@ -20,7 +20,7 @@ class DirectoryProcessor
 
         for (file in root.listFiles()!!) {
             if (file.isDirectory) {
-                getMusicFromDirectory(file)
+                tracks.addAll(getMusicFromDirectory(file))
             } else {
                 val name = file.absolutePath
                 if (name.substringAfterLast('.') == "mp3") {
