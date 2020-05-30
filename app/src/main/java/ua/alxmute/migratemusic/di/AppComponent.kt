@@ -9,6 +9,7 @@ import dagger.android.support.AndroidSupportInjectionModule
 import ua.alxmute.migratemusic.MusicMigrationApp
 import ua.alxmute.migratemusic.di.module.ContextHolderModule
 import ua.alxmute.migratemusic.di.module.DirectoryProcessorModule
+import ua.alxmute.migratemusic.di.module.MusicServiceStrategyModule
 import ua.alxmute.migratemusic.di.module.NetworkModule
 import javax.inject.Singleton
 
@@ -18,6 +19,7 @@ import javax.inject.Singleton
         AndroidSupportInjectionModule::class,
         ActivityBuilder::class,
         DirectoryProcessorModule::class,
+        MusicServiceStrategyModule::class,
         NetworkModule::class,
         ContextHolderModule::class
     ]

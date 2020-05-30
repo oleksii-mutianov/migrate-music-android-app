@@ -11,6 +11,7 @@ import dagger.android.AndroidInjection
 import dagger.android.support.DaggerAppCompatActivity
 import ua.alxmute.migratemusic.R
 import ua.alxmute.migratemusic.data.ContextHolder
+import ua.alxmute.migratemusic.data.MusicServiceName
 import javax.inject.Inject
 
 class ChooseMusicServiceActivity : DaggerAppCompatActivity() {
@@ -43,6 +44,7 @@ class ChooseMusicServiceActivity : DaggerAppCompatActivity() {
         if (response.type != AuthenticationResponse.Type.EMPTY) {
             if (AUTH_TOKEN_REQUEST_CODE == requestCode) {
                 contextHolder.token = response.accessToken
+                contextHolder.musicServiceName = MusicServiceName.SPOTIFY
             }
 
             startActivity(Intent(this, ChooseDirectoryActivity::class.java))
