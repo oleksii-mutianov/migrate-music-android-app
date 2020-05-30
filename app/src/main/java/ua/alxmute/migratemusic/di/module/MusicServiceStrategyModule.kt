@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
 import okhttp3.OkHttpClient
+import ua.alxmute.migratemusic.chain.AddTrackChain
 import ua.alxmute.migratemusic.data.ContextHolder
 import ua.alxmute.migratemusic.data.MusicServiceName
 import ua.alxmute.migratemusic.di.MusicServiceNameKey
@@ -41,6 +42,7 @@ class MusicServiceStrategyModule {
     @JvmSuppressWildcards
     fun addMusicService(
         strategies: Map<MusicServiceName, MusicServiceStrategy>,
-        contextHolder: ContextHolder
-    ): AddTracksService = AddTracksService(strategies, contextHolder)
+        contextHolder: ContextHolder,
+        addTrackChain: AddTrackChain
+    ): AddTracksService = AddTracksService(strategies, contextHolder, addTrackChain)
 }
