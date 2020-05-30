@@ -1,4 +1,4 @@
-package ua.alxmute.migratemusic
+package ua.alxmute.migratemusic.activity
 
 import android.Manifest
 import android.content.Context
@@ -6,12 +6,15 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
-import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_main.*
+import dagger.android.support.DaggerAppCompatActivity
+import kotlinx.android.synthetic.main.activity_choose_directory.*
 import net.rdrei.android.dirchooser.DirectoryChooserFragment
+import ua.alxmute.migratemusic.R
+import ua.alxmute.migratemusic.data.ContextHolder
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInteractionListener {
+class ChooseDirectoryActivity : DaggerAppCompatActivity(), DirectoryChooserFragment.OnFragmentInteractionListener {
 
     companion object {
         private val PERMISSIONS = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -20,9 +23,12 @@ class MainActivity : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInt
 
     private val chooserFragment: DirectoryChooserFragment = DirectoryChooserFragment.newInstance()
 
+    @Inject
+    lateinit var contextHolder: ContextHolder
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_choose_directory)
 
         if (!hasPermissions(this, PERMISSIONS)) {
             ActivityCompat.requestPermissions(this, PERMISSIONS, READ_STORAGE_PERMISSION)
@@ -36,10 +42,9 @@ class MainActivity : AppCompatActivity(), DirectoryChooserFragment.OnFragmentInt
     override fun onSelectDirectory(path: String) {
         chooserFragment.dismiss()
 
-        val intent = Intent(this, FileProcessingActivity::class.java).apply {
-            putExtra("path", path)
-        }
-        startActivity(intent)
+        contextHolder.directory = path
+
+        startActivity(Intent(this, FileProcessingActivity::class.java))
     }
 
     override fun onCancelChooser() {

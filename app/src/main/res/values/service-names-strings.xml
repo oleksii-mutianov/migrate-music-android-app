@@ -1,0 +1,4 @@
+<resources>
+    <string name="spotify_service">Spotify</string>
+    <string name="deezer_service">Deezer</string>
+</resources>
