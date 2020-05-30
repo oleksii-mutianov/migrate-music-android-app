@@ -28,7 +28,7 @@ class MusicServiceStrategyModule {
         gson: Gson
     ): MusicServiceStrategy = SpotifyMusicServiceStrategy(contextHolder, httpClient, gson)
 
-    // TODO: just mock implementation, need to create real
+    // TODO: just mock implementation, need to create real one
     @IntoMap
     @Provides
     @Singleton
