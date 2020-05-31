@@ -21,7 +21,7 @@ class ChooseDirectoryActivity : DaggerAppCompatActivity(), DirectoryChooserFragm
         private const val READ_STORAGE_PERMISSION = 1
     }
 
-    private val chooserFragment: DirectoryChooserFragment = DirectoryChooserFragment.newInstance()
+    private val chooserFragment: DirectoryChooserFragment = DirectoryChooserFragment()
 
     @Inject
     lateinit var contextHolder: ContextHolder
