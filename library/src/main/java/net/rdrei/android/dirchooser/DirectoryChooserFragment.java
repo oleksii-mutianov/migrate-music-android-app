@@ -30,6 +30,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -235,13 +236,22 @@ public class DirectoryChooserFragment extends DialogFragment {
                 int numFiles = contents.length;
                 mFilesInDir = new File[numFiles];
                 mFilenames.clear();
-                for (int i = 0, counter = 0; i < numFiles; counter++) {
+                for (int i = 0, counter = 0; i < numFiles; counter++, i++) {
                     mFilesInDir[i] = contents[counter];
                     mFilenames.add(contents[counter].getName());
-                    i++;
                 }
-                Arrays.sort(mFilesInDir);
-                Collections.sort(mFilenames);
+                Arrays.sort(mFilesInDir, new Comparator<File>() {
+                    @Override
+                    public int compare(File o1, File o2) {
+                        return o1.getName().compareToIgnoreCase(o2.getName());
+                    }
+                });
+                Collections.sort(mFilenames, new Comparator<String>() {
+                    @Override
+                    public int compare(String o1, String o2) {
+                        return o1.compareToIgnoreCase(o2);
+                    }
+                });
                 mSelectedDir = dir;
                 mTxtvSelectedFolder.setText(dir.getAbsolutePath());
                 mListDirectoriesAdapter.notifyDataSetChanged();
