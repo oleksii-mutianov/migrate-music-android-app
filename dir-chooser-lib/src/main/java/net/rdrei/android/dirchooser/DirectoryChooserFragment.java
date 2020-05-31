@@ -1,12 +1,12 @@
 package net.rdrei.android.dirchooser;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.FileObserver;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -37,8 +37,6 @@ import java.util.List;
  * Activities that contain this fragment must implement the
  * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link DirectoryChooserFragment#newInstance} factory method to
- * create an instance of this fragment.
  */
 public class DirectoryChooserFragment extends DialogFragment {
 
@@ -58,11 +56,6 @@ public class DirectoryChooserFragment extends DialogFragment {
      */
     private File mSelectedDir;
     private File[] mFilesInDir;
-    private FileObserver mFileObserver;
-
-    public static DirectoryChooserFragment newInstance() {
-        return new DirectoryChooserFragment();
-    }
 
     private static void debug(final String message, final Object... args) {
         Log.d(TAG, String.format(message, args));
@@ -157,11 +150,11 @@ public class DirectoryChooserFragment extends DialogFragment {
     }
 
     @Override
-    public void onAttach(final Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(final Context context) {
+        super.onAttach(context);
 
-        if (activity instanceof OnFragmentInteractionListener) {
-            mListener = Option.some((OnFragmentInteractionListener) activity);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = Option.some((OnFragmentInteractionListener) context);
         } else {
             Fragment owner = getTargetFragment();
             if (owner instanceof OnFragmentInteractionListener) {
@@ -174,22 +167,6 @@ public class DirectoryChooserFragment extends DialogFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (mFileObserver != null) {
-            mFileObserver.stopWatching();
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mFileObserver != null) {
-            mFileObserver.startWatching();
-        }
     }
 
     private void adjustResourceLightness() {
@@ -255,8 +232,6 @@ public class DirectoryChooserFragment extends DialogFragment {
                 mSelectedDir = dir;
                 mTxtvSelectedFolder.setText(dir.getAbsolutePath());
                 mListDirectoriesAdapter.notifyDataSetChanged();
-                mFileObserver = createFileObserver(dir.getAbsolutePath());
-                mFileObserver.startWatching();
                 debug("Changed directory to %s", dir.getAbsolutePath());
             } else {
                 debug("Could not change folder: contents of dir were null");
@@ -275,39 +250,6 @@ public class DirectoryChooserFragment extends DialogFragment {
             mBtnConfirm.setEnabled(isValidFile(mSelectedDir));
             getActivity().invalidateOptionsMenu();
         }
-    }
-
-    /**
-     * Refresh the contents of the directory that is currently shown.
-     */
-    private void refreshDirectory() {
-        if (mSelectedDir != null) {
-            changeDirectory(mSelectedDir);
-        }
-    }
-
-    /**
-     * Sets up a FileObserver to watch the current directory.
-     */
-    private FileObserver createFileObserver(final String path) {
-        return new FileObserver(path, FileObserver.CREATE | FileObserver.DELETE
-                | FileObserver.MOVED_FROM | FileObserver.MOVED_TO) {
-
-            @Override
-            public void onEvent(final int event, final String path) {
-                debug("FileObserver received event %d", event);
-                final Activity activity = getActivity();
-
-                if (activity != null) {
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            refreshDirectory();
-                        }
-                    });
-                }
-            }
-        };
     }
 
     /**
