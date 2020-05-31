@@ -4,6 +4,4 @@ interface FileProcessingPresenter {
 
     fun onload()
 
-    fun getChosenDirectory(): String
-
 }

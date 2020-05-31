@@ -13,4 +13,6 @@ interface FileProcessingView {
 
     fun getListForProcessedTracks(): MutableList<LocalTrackDto>
 
+    fun setTextDirectory(text: String)
+
 }

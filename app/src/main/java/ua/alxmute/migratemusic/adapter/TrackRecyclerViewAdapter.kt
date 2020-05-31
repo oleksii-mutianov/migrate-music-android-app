@@ -9,10 +9,10 @@ import android.widget.TextView
 import ua.alxmute.migratemusic.R
 import ua.alxmute.migratemusic.data.LocalTrackDto
 
-class TrackRecyclerViewAdapter(
-    private val tracks: List<LocalTrackDto>,
-    val context: Context
-) : RecyclerView.Adapter<TrackRecyclerViewAdapter.TrackViewHolder>() {
+class TrackRecyclerViewAdapter : RecyclerView.Adapter<TrackRecyclerViewAdapter.TrackViewHolder>() {
+
+    lateinit var tracks: List<LocalTrackDto>
+    lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): TrackViewHolder {
         val inflater = LayoutInflater.from(context)

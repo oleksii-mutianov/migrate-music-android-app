@@ -19,15 +19,14 @@ class FileProcessingActivity : DaggerAppCompatActivity(), FileProcessingView {
 
     private val processedTracks = ArrayList<LocalTrackDto>()
 
-    private var trackRecyclerViewAdapter: TrackRecyclerViewAdapter? = null
+    private var trackRecyclerViewAdapter: TrackRecyclerViewAdapter = TrackRecyclerViewAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_file_processing)
 
-        textDirectory.text = fileProcessingPresenter.getChosenDirectory()
-
-        trackRecyclerViewAdapter = TrackRecyclerViewAdapter(processedTracks, this)
+        trackRecyclerViewAdapter.tracks = processedTracks
+        trackRecyclerViewAdapter.context = this
 
         rcProcessedTracks.adapter = trackRecyclerViewAdapter
         rcProcessedTracks.layoutManager = LinearLayoutManager(this)
@@ -35,9 +34,15 @@ class FileProcessingActivity : DaggerAppCompatActivity(), FileProcessingView {
         fileProcessingPresenter.onload()
     }
 
+    override fun setTextDirectory(text: String) {
+        runOnUiThread {
+            textDirectory.text = text
+        }
+    }
+
     override fun refreshList() {
         runOnUiThread {
-            trackRecyclerViewAdapter!!.notifyDataSetChanged()
+            trackRecyclerViewAdapter.notifyDataSetChanged()
         }
     }
 

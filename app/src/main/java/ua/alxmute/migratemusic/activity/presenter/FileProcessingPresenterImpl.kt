@@ -17,12 +17,11 @@ class FileProcessingPresenterImpl(
 
     override fun onload() {
         thread {
+            view.setTextDirectory(contextHolder.directory)
             val tracksToProcess = directoryProcessor.getMusicFromDirectory(contextHolder.directory)
             musicProcessorService.addTracks(tracksToProcess, view.getListForProcessedTracks(), this)
         }
     }
-
-    override fun getChosenDirectory(): String = contextHolder.directory
 
     override fun onTrackProcessed(processedSize: Int, totalSize: Int) {
         view.setTrackCounter(
