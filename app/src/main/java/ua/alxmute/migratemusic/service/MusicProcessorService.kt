@@ -1,6 +1,10 @@
 package ua.alxmute.migratemusic.service
 
+import android.app.Activity
 import android.util.Log
+import android.widget.TextView
+import ua.alxmute.migratemusic.R
+import ua.alxmute.migratemusic.adapter.TrackRecyclerViewAdapter
 import ua.alxmute.migratemusic.chain.AddTrackChain
 import ua.alxmute.migratemusic.data.ContextHolder
 import ua.alxmute.migratemusic.data.LocalTrackDto
@@ -13,22 +17,32 @@ class MusicProcessorService(
     private val addTrackChain: AddTrackChain
 ) {
 
-    fun addTracks(tracks: List<LocalTrackDto>) {
-
-        val successfulList = ArrayList<LocalTrackDto>()
-        val unsuccessfulList = ArrayList<LocalTrackDto>()
+    fun addTracks(
+        tracksToProcess: List<LocalTrackDto>,
+        processedTracks: MutableList<LocalTrackDto>,
+        adapter: TrackRecyclerViewAdapter
+    ) {
 
         val musicServiceStrategy = musicServiceStrategies.getValue(contextHolder.musicServiceName)
 
-        tracks.forEach { localTrackDto ->
+        tracksToProcess.forEach { localTrackDto ->
             val result: Boolean = addTrackChain.handle(localTrackDto, musicServiceStrategy)
             if (result) {
-                successfulList.add(localTrackDto)
+                processedTracks.add(localTrackDto)
                 Log.d("success", "${localTrackDto.author} ${localTrackDto.title}")
             } else {
-                unsuccessfulList.add(localTrackDto)
+                // TODO: add failed tracks to separate list
+                processedTracks.add(localTrackDto)
                 Log.d("failure", "${localTrackDto.fileName} (${localTrackDto.author} ${localTrackDto.title})")
             }
+
+            // TODO: implement MVP to get rid of drawing logic in service...
+            (adapter.context as Activity).runOnUiThread {
+                adapter.notifyDataSetChanged()
+                adapter.context.findViewById<TextView>(R.id.trackCounter).text =
+                    adapter.context.resources.getString(R.string.processed_tracks, processedTracks.size, tracksToProcess.size)
+            }
+
         }
     }
 

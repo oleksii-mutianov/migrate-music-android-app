@@ -20,5 +20,19 @@
         android:text="@string/none"
         tools:ignore="UnusedAttribute" />
 
+    <TextView
+        android:id="@+id/trackCounter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:text="Processed 3 tracks of 34"
+        android:textSize="16sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcProcessedTracks"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 
 </LinearLayout>
