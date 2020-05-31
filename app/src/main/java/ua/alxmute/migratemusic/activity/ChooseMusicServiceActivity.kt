@@ -11,6 +11,7 @@ import dagger.android.AndroidInjection
 import dagger.android.support.DaggerAppCompatActivity
 import ua.alxmute.migratemusic.R
 import ua.alxmute.migratemusic.data.ContextHolder
+import ua.alxmute.migratemusic.data.MusicServiceName
 import javax.inject.Inject
 
 class ChooseMusicServiceActivity : DaggerAppCompatActivity() {
@@ -22,9 +23,6 @@ class ChooseMusicServiceActivity : DaggerAppCompatActivity() {
 
     @Inject
     lateinit var contextHolder: ContextHolder
-
-//    @Inject
-//    lateinit var spotifyService: SpotifyService
 
     private val redirectUri: Uri by lazy {
         Uri.Builder()
@@ -43,12 +41,14 @@ class ChooseMusicServiceActivity : DaggerAppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         val response = AuthenticationClient.getResponse(resultCode, data)
 
-        if (AUTH_TOKEN_REQUEST_CODE == requestCode) {
-            contextHolder.token = response.accessToken
-//            updateTokenView()
-        }
+        if (response.type != AuthenticationResponse.Type.EMPTY) {
+            if (AUTH_TOKEN_REQUEST_CODE == requestCode) {
+                contextHolder.token = response.accessToken
+                contextHolder.musicServiceName = MusicServiceName.SPOTIFY
+            }
 
-        startActivity(Intent(this, ChooseDirectoryActivity::class.java))
+            startActivity(Intent(this, ChooseDirectoryActivity::class.java))
+        }
     }
 
     fun onSpotifyLoginClick(view: View) {

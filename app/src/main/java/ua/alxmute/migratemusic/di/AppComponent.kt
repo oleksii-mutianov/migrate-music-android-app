@@ -7,8 +7,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import dagger.android.support.AndroidSupportInjectionModule
 import ua.alxmute.migratemusic.MusicMigrationApp
-import ua.alxmute.migratemusic.di.module.ContextHolderModule
-import ua.alxmute.migratemusic.di.module.NetworkModule
+import ua.alxmute.migratemusic.di.module.*
 import javax.inject.Singleton
 
 @Singleton
@@ -16,6 +15,9 @@ import javax.inject.Singleton
     modules = [
         AndroidSupportInjectionModule::class,
         ActivityBuilder::class,
+        AddTrackChainModule::class,
+        DirectoryProcessorModule::class,
+        MusicServiceStrategyModule::class,
         NetworkModule::class,
         ContextHolderModule::class
     ]
