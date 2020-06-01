@@ -11,6 +11,7 @@ import ua.alxmute.migratemusic.activity.view.FileProcessingView
 import ua.alxmute.migratemusic.adapter.TrackRecyclerViewAdapter
 import ua.alxmute.migratemusic.data.LocalTrackDto
 import javax.inject.Inject
+import kotlin.concurrent.thread
 
 class FileProcessingActivity : DaggerAppCompatActivity(), FileProcessingView {
 
@@ -31,7 +32,9 @@ class FileProcessingActivity : DaggerAppCompatActivity(), FileProcessingView {
         rcProcessedTracks.adapter = trackRecyclerViewAdapter
         rcProcessedTracks.layoutManager = LinearLayoutManager(this)
 
-        fileProcessingPresenter.onload()
+        thread {
+            fileProcessingPresenter.onload()
+        }
     }
 
     override fun setTextDirectory(text: String) {
