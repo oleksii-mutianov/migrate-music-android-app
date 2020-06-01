@@ -13,22 +13,27 @@ class MusicProcessorService(
     private val addTrackChain: AddTrackChain
 ) {
 
-    fun addTracks(tracks: List<LocalTrackDto>) {
-
-        val successfulList = ArrayList<LocalTrackDto>()
-        val unsuccessfulList = ArrayList<LocalTrackDto>()
+    fun addTracks(
+        tracksToProcess: List<LocalTrackDto>,
+        processedTracks: MutableList<LocalTrackDto>,
+        listener: TrackProcessingListener
+    ) {
 
         val musicServiceStrategy = musicServiceStrategies.getValue(contextHolder.musicServiceName)
 
-        tracks.forEach { localTrackDto ->
+        tracksToProcess.forEach { localTrackDto ->
             val result: Boolean = addTrackChain.handle(localTrackDto, musicServiceStrategy)
             if (result) {
-                successfulList.add(localTrackDto)
+                processedTracks.add(localTrackDto)
                 Log.d("success", "${localTrackDto.author} ${localTrackDto.title}")
             } else {
-                unsuccessfulList.add(localTrackDto)
+                // TODO: add failed tracks to separate list
+                processedTracks.add(localTrackDto)
                 Log.d("failure", "${localTrackDto.fileName} (${localTrackDto.author} ${localTrackDto.title})")
             }
+
+            listener.onTrackProcessed(processedTracks.size, tracksToProcess.size)
+
         }
     }
 

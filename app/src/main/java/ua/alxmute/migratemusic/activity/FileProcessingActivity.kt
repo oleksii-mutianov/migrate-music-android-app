@@ -1,37 +1,66 @@
 package ua.alxmute.migratemusic.activity
 
+import android.content.res.Resources
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_file_processing.*
 import ua.alxmute.migratemusic.R
-import ua.alxmute.migratemusic.data.ContextHolder
-import ua.alxmute.migratemusic.service.DirectoryProcessor
-import ua.alxmute.migratemusic.service.MusicProcessorService
+import ua.alxmute.migratemusic.activity.presenter.FileProcessingPresenter
+import ua.alxmute.migratemusic.activity.view.FileProcessingView
+import ua.alxmute.migratemusic.adapter.TrackRecyclerViewAdapter
+import ua.alxmute.migratemusic.data.LocalTrackDto
 import javax.inject.Inject
 import kotlin.concurrent.thread
 
-class FileProcessingActivity : DaggerAppCompatActivity() {
+class FileProcessingActivity : DaggerAppCompatActivity(), FileProcessingView {
 
     @Inject
-    lateinit var contextHolder: ContextHolder
+    lateinit var fileProcessingPresenter: FileProcessingPresenter
 
-    @Inject
-    lateinit var directoryProcessor: DirectoryProcessor
+    private val processedTracks = ArrayList<LocalTrackDto>()
 
-    @Inject
-    lateinit var musicProcessorService: MusicProcessorService
+    private var trackRecyclerViewAdapter: TrackRecyclerViewAdapter = TrackRecyclerViewAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_file_processing)
 
-        textDirectory.text = contextHolder.directory
+        trackRecyclerViewAdapter.tracks = processedTracks
+        trackRecyclerViewAdapter.context = this
 
-        val tracks = directoryProcessor.getMusicFromDirectory(contextHolder.directory)
+        rcProcessedTracks.adapter = trackRecyclerViewAdapter
+        rcProcessedTracks.layoutManager = LinearLayoutManager(this)
 
         thread {
-            musicProcessorService.addTracks(tracks)
+            fileProcessingPresenter.onload()
         }
-
     }
+
+    override fun setTextDirectory(text: String) {
+        runOnUiThread {
+            textDirectory.text = text
+        }
+    }
+
+    override fun refreshList() {
+        runOnUiThread {
+            trackRecyclerViewAdapter.notifyDataSetChanged()
+        }
+    }
+
+    override fun setTrackCounter(text: String) {
+        runOnUiThread {
+            trackCounter.text = text
+        }
+    }
+
+    override fun getResources(): Resources {
+        return super.getResources()
+    }
+
+    override fun getListForProcessedTracks(): MutableList<LocalTrackDto> {
+        return processedTracks
+    }
+
 }
