@@ -4,7 +4,7 @@
     <string name="none">none</string>
     <string name="btn_choose">Choose music directory</string>
 
-    <string name="choose_your_target_service">Choose your target service:</string>
+    <string name="choose_your_target_service">Choose destination:</string>
     <string name="processed_tracks">Processed tracks: %d of %d</string>
 
 </resources>

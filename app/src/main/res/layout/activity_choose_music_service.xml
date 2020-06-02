@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_margin="8dp"
@@ -10,14 +11,27 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:text="@string/choose_your_target_service"
-        android:textSize="18sp" />
+        android:textSize="28sp" />
 
-    <Button
+    <ImageButton
         android:id="@+id/spotifyLogin"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="115dp"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/holo_blue_dark"
         android:onClick="onSpotifyLoginClick"
-        android:text="@string/spotify_service" />
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/spotify" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="match_parent"
+        android:layout_height="115dp"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/holo_blue_dark"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/deezer" />
 
 </LinearLayout>
