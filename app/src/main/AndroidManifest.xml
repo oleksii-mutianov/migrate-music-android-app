@@ -33,14 +33,12 @@
                     android:scheme="@string/com_spotify_sdk_redirect_scheme" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.ChooseDirectoryActivity" />
         <activity android:name=".activity.FileProcessingActivity" />
-        <activity android:name=".activity.ChooseDirectoryActivity">
-            <!--            <intent-filter>-->
-            <!--                <action android:name="android.intent.action.MAIN" />-->
 
-            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--            </intent-filter>-->
-        </activity>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
