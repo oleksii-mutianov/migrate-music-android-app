@@ -80,7 +80,7 @@
             android:layout_toEndOf="@id/btnNavUp"
             android:layout_toRightOf="@id/btnNavUp"
             android:text="@string/selected_folder_label"
-            android:textStyle="bold"></TextView>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtvSelectedFolder"

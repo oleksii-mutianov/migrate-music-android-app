@@ -6,5 +6,7 @@
 
     <string name="choose_your_target_service">Choose your target service:</string>
     <string name="processed_tracks">Processed tracks: %d of %d</string>
+    <string name="track_counter">Found %d</string>
+    <string name="directory_selected">Directory Selected:</string>
 
 </resources>
