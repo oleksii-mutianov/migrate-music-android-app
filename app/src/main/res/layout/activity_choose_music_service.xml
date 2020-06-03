@@ -18,20 +18,38 @@
     <ImageButton
         android:id="@+id/spotifyLogin"
         android:layout_width="match_parent"
-        android:layout_height="115dp"
-        android:layout_marginBottom="10dp"
-        android:background="@android:color/holo_blue_dark"
+        android:layout_height="@dimen/music_service_btn_height"
+        android:layout_marginBottom="5dp"
         android:onClick="onSpotifyLoginClick"
+        android:backgroundTint="#43A047"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/spotify" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/deezerLogin"
         android:layout_width="match_parent"
-        android:layout_height="115dp"
-        android:layout_marginBottom="10dp"
-        android:background="@android:color/holo_blue_dark"
+        android:layout_height="@dimen/music_service_btn_height"
+        android:layout_marginBottom="@dimen/music_service_btn_margin_bot"
+        android:backgroundTint="#1A1C33"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/deezer" />
+
+    <ImageButton
+        android:id="@+id/youtubeMusicLogin"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/music_service_btn_height"
+        android:layout_marginBottom="@dimen/music_service_btn_margin_bot"
+        android:backgroundTint="#D50000"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/youtube_music" />
+
+    <ImageButton
+        android:id="@+id/soundcloudLogin"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/music_service_btn_height"
+        android:layout_marginBottom="@dimen/music_service_btn_margin_bot"
+        android:backgroundTint="#FF6F00"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/soundcloud" />
 
 </LinearLayout>
