@@ -1,9 +1,9 @@
 package ua.alxmute.migratemusic.auth.deezer
 
-import ua.alxmute.migratemusic.service.DeezerLoginListener
+import ua.alxmute.migratemusic.service.LoginListener
 
 interface AuthClient {
 
-    fun onComplete(code: String, loginListener: DeezerLoginListener)
+    fun onComplete(code: String, loginListener: LoginListener)
 
 }

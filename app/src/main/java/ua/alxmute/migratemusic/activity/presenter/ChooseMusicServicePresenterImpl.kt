@@ -12,13 +12,13 @@ import ua.alxmute.migratemusic.auth.LoginDialog
 import ua.alxmute.migratemusic.auth.deezer.DeezerAuthClient
 import ua.alxmute.migratemusic.data.ContextHolder
 import ua.alxmute.migratemusic.data.MusicServiceName
-import ua.alxmute.migratemusic.service.DeezerLoginListener
+import ua.alxmute.migratemusic.service.LoginListener
 
 class ChooseMusicServicePresenterImpl(
     val view: ChooseMusicServiceView,
     val contextHolder: ContextHolder,
     val deezerAuthClient: DeezerAuthClient
-) : ChooseMusicServicePresenter, DeezerLoginListener {
+) : ChooseMusicServicePresenter, LoginListener {
 
     companion object {
         const val SPOTIFY_CLIENT_ID = "eff51993ba68441c92f1a1036ef2607e"
@@ -64,7 +64,7 @@ class ChooseMusicServicePresenterImpl(
         ).show()
     }
 
-    override fun onDeezerLoggedIn(accessToken: String) {
+    override fun onLoggedIn(accessToken: String) {
         contextHolder.token = accessToken
         contextHolder.musicServiceName = MusicServiceName.DEEZER
         startChooseDirectoryActivity()
