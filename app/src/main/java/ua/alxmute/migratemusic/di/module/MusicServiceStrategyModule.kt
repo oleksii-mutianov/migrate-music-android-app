@@ -28,14 +28,15 @@ class MusicServiceStrategyModule {
         gson: Gson
     ): MusicServiceStrategy = SpotifyMusicServiceStrategy(contextHolder, httpClient, gson)
 
-    // TODO: just mock implementation, need to create real one
     @IntoMap
     @Provides
     @Singleton
     @MusicServiceNameKey(MusicServiceName.DEEZER)
     fun deezerMusicServiceStrategy(
-
-    ): MusicServiceStrategy = DeezerMusicServiceStrategy()
+        contextHolder: ContextHolder,
+        httpClient: OkHttpClient,
+        gson: Gson
+    ): MusicServiceStrategy = DeezerMusicServiceStrategy(contextHolder, httpClient, gson)
 
     @Provides
     @Singleton

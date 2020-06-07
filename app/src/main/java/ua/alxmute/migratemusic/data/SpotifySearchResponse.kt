@@ -1,6 +1,6 @@
 package ua.alxmute.migratemusic.data
 
-data class SearchResponse(
+data class SpotifySearchResponse(
     val tracks: TracksWrapper
 ) {
 
