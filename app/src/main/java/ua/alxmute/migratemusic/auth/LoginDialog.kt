@@ -22,7 +22,7 @@ class LoginDialog(
     activity: Activity,
     private val url: String,
     private val authClient: AuthClient,
-    val loginListener: DeezerLoginListener
+    private val loginListener: DeezerLoginListener
 ) : Dialog(activity, android.R.style.Theme_Translucent_NoTitleBar) {
 
     companion object {
@@ -31,15 +31,12 @@ class LoginDialog(
         private const val MAX_HEIGHT_DP = 640
     }
 
-    private var mResultDelivered = false
-    private var mUri: Uri? = null
+    private var uri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mResultDelivered = false
-        mUri = Uri.parse(url)
-
+        uri = Uri.parse(url)
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
@@ -49,17 +46,17 @@ class LoginDialog(
 
         setLayoutSize()
 
-        createWebView(mUri)
+        createWebView()
     }
 
-    private fun createWebView(uri: Uri?) {
+    private fun createWebView() {
         if (!internetPermissionGranted()) {
             Log.e(TAG, "Missing INTERNET permission")
         }
 
-        val webView = findViewById<WebView>(R.id.com_spotify_sdk_login_webview)
+        val webView = findViewById<WebView>(R.id.login_webview)
         val mWebViewContainer =
-            findViewById<LinearLayout>(R.id.com_spotify_sdk_login_webview_container)
+            findViewById<LinearLayout>(R.id.login_webview_container)
 
         val webSettings = webView.settings
         webSettings.javaScriptEnabled = true
@@ -71,9 +68,7 @@ class LoginDialog(
             }
 
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-
                 if (url.contains("code")) {
-                    Log.d("deezer_code", url)
                     authClient.onComplete(url.substringAfterLast("code="), loginListener)
                     dismiss()
                 }
@@ -81,65 +76,9 @@ class LoginDialog(
                 view.loadUrl(url)
                 return true
             }
-
-            override fun onReceivedError(
-                view: WebView,
-                errorCode: Int,
-                description: String,
-                failingUrl: String
-            ) {
-                super.onReceivedError(view, errorCode, description, failingUrl)
-                sendError(
-                    Error(
-                        "$description, code: $errorCode, failing url: $failingUrl"
-                    )
-                )
-            }
         }
         webView.loadUrl(uri.toString())
     }
-
-
-    private fun sendComplete(responseUri: Uri) {
-        mResultDelivered = true
-//        if (mListener != null) {
-//            mListener.onComplete(AuthorizationResponse.fromUri(responseUri))
-//        }
-//        close()
-    }
-
-    private fun sendError(error: Throwable) {
-        mResultDelivered = true
-//        if (mListener != null) {
-//            mListener.onError(error)
-//        }
-//        close()
-    }
-
-//    override fun onAttachedToWindow() {
-//        mAttached = true
-//        super.onAttachedToWindow()
-//    }
-
-//    override fun onDetachedFromWindow() {
-//        mAttached = false
-//        super.onDetachedFromWindow()
-//    }
-
-//    override fun onStop() {
-//        if (!mResultDelivered && mListener != null) {
-//            mListener.onCancel()
-//        }
-//        mResultDelivered = true
-//        mProgressDialog!!.dismiss()
-//        super.onStop()
-//    }
-
-//    fun close() {
-//        if (mAttached) {
-//            dismiss()
-//        }
-//    }
 
     private fun internetPermissionGranted(): Boolean {
         val pm = context.packageManager
@@ -168,15 +107,7 @@ class LoginDialog(
             dialogHeight = (MAX_HEIGHT_DP * metrics.density).toInt()
         }
         val layout =
-            findViewById<View>(R.id.com_spotify_sdk_login_webview_container) as LinearLayout
+            findViewById<View>(R.id.login_webview_container) as LinearLayout
         layout.layoutParams = FrameLayout.LayoutParams(dialogWidth, dialogHeight, Gravity.CENTER)
-    }
-
-    fun clearCookies(context: Context?) {
-//        WebViewUtils.clearFacebookCookies(context)
-//        WebViewUtils.clearCookiesForDomain(context, "spotify.com")
-//        WebViewUtils.clearCookiesForDomain(context, ".spotify.com")
-//        WebViewUtils.clearCookiesForDomain(context, "https://spotify.com")
-//        WebViewUtils.clearCookiesForDomain(context, "https://.spotify.com")
     }
 }
