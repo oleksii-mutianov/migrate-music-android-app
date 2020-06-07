@@ -20,7 +20,7 @@ abstract class AddTrackChain {
         if (searchQuery.isNotBlank()) {
             val foundTracks = musicServiceStrategy.requestTrack(searchQuery)
             if ((foundTracks.total > 0)) {
-                return musicServiceStrategy.addTrack(foundTracks.items[0].id)
+                return musicServiceStrategy.addTrack(foundTracks.id)
             }
         }
 

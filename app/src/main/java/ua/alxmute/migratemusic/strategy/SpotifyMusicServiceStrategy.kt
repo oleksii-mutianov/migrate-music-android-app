@@ -6,8 +6,8 @@ import okhttp3.Request
 import okhttp3.RequestBody
 import ua.alxmute.migratemusic.data.ContextHolder
 import ua.alxmute.migratemusic.data.MusicServiceName
-import ua.alxmute.migratemusic.data.SearchResponse
-import ua.alxmute.migratemusic.data.SearchResponse.TracksWrapper
+import ua.alxmute.migratemusic.data.ServiceTrack
+import ua.alxmute.migratemusic.data.SpotifySearchResponse
 
 class SpotifyMusicServiceStrategy(
     private val contextHolder: ContextHolder,
@@ -15,7 +15,7 @@ class SpotifyMusicServiceStrategy(
     private val gson: Gson
 ) : MusicServiceStrategy {
 
-    override fun requestTrack(searchQuery: String): TracksWrapper {
+    override fun requestTrack(searchQuery: String): ServiceTrack {
 
         val trackName = searchQuery.replace(" ", "+")
 
@@ -28,7 +28,12 @@ class SpotifyMusicServiceStrategy(
         val response = httpClient.newCall(searchTrackRequest).execute()
 
         if (response.isSuccessful) {
-            return gson.fromJson(response.body()!!.string(), SearchResponse::class.java).tracks
+            val tracks = gson.fromJson(response.body()!!.string(), SpotifySearchResponse::class.java).tracks
+            if (tracks.total > 0) {
+                val trackResponse = tracks.items[0]
+                return ServiceTrack(tracks.total, trackResponse.id, trackResponse.name, trackResponse.artists[0].name)
+            }
+            return ServiceTrack(tracks.total)
         }
         throw RuntimeException("Cannot find track") // TODO: do not throw exception...
     }
