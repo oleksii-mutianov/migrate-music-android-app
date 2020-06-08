@@ -2,6 +2,7 @@ package ua.alxmute.migratemusic.activity
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
@@ -41,6 +42,10 @@ class ChooseDirectoryActivity() : DaggerAppCompatActivity(),
         btnChoose.setOnClickListener {
             chooserFragment.show(supportFragmentManager, null)
         }
+
+        btnConfirm.setOnClickListener {
+            startActivity(Intent(this, FileProcessingActivity::class.java))
+        }
     }
 
     override fun onSelectDirectory(path: String) {
@@ -51,8 +56,6 @@ class ChooseDirectoryActivity() : DaggerAppCompatActivity(),
         textDirectory.text = path
         val counter = directoryProcessor.countMusicFromDirectory(path)
         trackFoundCounter.text = resources.getString(R.string.track_counter, counter)
-
-//        startActivity(Intent(this, FileProcessingActivity::class.java))
     }
 
     override fun onCancelChooser() {

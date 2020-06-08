@@ -37,12 +37,6 @@ class FileProcessingActivity : DaggerAppCompatActivity(), FileProcessingView {
         }
     }
 
-    override fun setTextDirectory(text: String) {
-        runOnUiThread {
-            textDirectory.text = text
-        }
-    }
-
     override fun refreshList() {
         runOnUiThread {
             trackRecyclerViewAdapter.notifyDataSetChanged()

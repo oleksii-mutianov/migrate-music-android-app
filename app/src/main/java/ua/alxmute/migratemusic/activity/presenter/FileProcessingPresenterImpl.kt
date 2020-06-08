@@ -15,7 +15,6 @@ class FileProcessingPresenterImpl(
 ) : FileProcessingPresenter, TrackProcessingListener {
 
     override fun onload() {
-        view.setTextDirectory(contextHolder.directory)
         val tracksToProcess = directoryProcessor.getMusicFromDirectory(contextHolder.directory)
         musicProcessorService.addTracks(tracksToProcess, view.getListForProcessedTracks(), this)
     }

@@ -8,5 +8,6 @@
     <string name="processed_tracks">Processed tracks: %d of %d</string>
     <string name="track_counter">Found %d</string>
     <string name="directory_selected">Directory Selected:</string>
+    <string name="startBtn">Start</string>
 
 </resources>

@@ -17,7 +17,6 @@ class DirectoryProcessor
     fun countMusicFromDirectory(directory: String): Int {
         return countMusicFromDirectory(File(directory))
     }
-
     private fun getMusicFromDirectory(root: File): List<LocalTrackDto> {
 
         val tracks = ArrayList<LocalTrackDto>()
