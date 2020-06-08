@@ -5,7 +5,7 @@ import dagger.android.ContributesAndroidInjector
 import ua.alxmute.migratemusic.activity.ChooseDirectoryActivity
 import ua.alxmute.migratemusic.activity.ChooseMusicServiceActivity
 import ua.alxmute.migratemusic.activity.FileProcessingActivity
-import ua.alxmute.migratemusic.di.module.FileProcessingActivityModule
+import ua.alxmute.migratemusic.di.module.ActivityModule
 
 @Module
 abstract class ActivityBuilder {
@@ -13,10 +13,10 @@ abstract class ActivityBuilder {
     @ContributesAndroidInjector
     abstract fun bindChooseDirectoryActivity(): ChooseDirectoryActivity
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [ActivityModule::class])
     abstract fun bindChooseMusicServiceActivity(): ChooseMusicServiceActivity
 
-    @ContributesAndroidInjector(modules = [FileProcessingActivityModule::class])
+    @ContributesAndroidInjector(modules = [ActivityModule::class])
     abstract fun bindFileProcessingActivity(): FileProcessingActivity
 
 }
