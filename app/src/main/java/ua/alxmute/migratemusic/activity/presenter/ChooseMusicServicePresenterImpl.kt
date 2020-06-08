@@ -50,8 +50,8 @@ class ChooseMusicServicePresenterImpl(
             if (response.type != AuthenticationResponse.Type.EMPTY) {
                 contextHolder.token = response.accessToken
                 contextHolder.musicServiceName = MusicServiceName.SPOTIFY
+                startChooseDirectoryActivity()
             }
-            startChooseDirectoryActivity()
         }
     }
 
