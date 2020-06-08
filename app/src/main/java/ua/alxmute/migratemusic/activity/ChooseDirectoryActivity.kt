@@ -12,19 +12,24 @@ import kotlinx.android.synthetic.main.activity_choose_directory.*
 import net.rdrei.android.dirchooser.DirectoryChooserFragment
 import ua.alxmute.migratemusic.R
 import ua.alxmute.migratemusic.data.ContextHolder
+import ua.alxmute.migratemusic.service.DirectoryProcessor
 import javax.inject.Inject
 
-class ChooseDirectoryActivity : DaggerAppCompatActivity(), DirectoryChooserFragment.OnFragmentInteractionListener {
+class ChooseDirectoryActivity() : DaggerAppCompatActivity(),
+    DirectoryChooserFragment.OnFragmentInteractionListener {
+
 
     companion object {
         private val PERMISSIONS = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
         private const val READ_STORAGE_PERMISSION = 1
     }
-
     private val chooserFragment: DirectoryChooserFragment = DirectoryChooserFragment()
 
     @Inject
     lateinit var contextHolder: ContextHolder
+
+    @Inject
+    lateinit var directoryProcessor: DirectoryProcessor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,14 +42,22 @@ class ChooseDirectoryActivity : DaggerAppCompatActivity(), DirectoryChooserFragm
         btnChoose.setOnClickListener {
             chooserFragment.show(supportFragmentManager, null)
         }
+
+        btnConfirm.setOnClickListener {
+            startActivity(Intent(this, FileProcessingActivity::class.java))
+        }
     }
 
     override fun onSelectDirectory(path: String) {
         chooserFragment.dismiss()
 
         contextHolder.directory = path
+        directorySelected.text = resources.getString(R.string.directory_selected)
+        textDirectory.text = path
+        val counter = directoryProcessor.countMusicFromDirectory(path)
+        trackFoundCounter.text = resources.getString(R.string.track_counter, counter)
 
-        startActivity(Intent(this, FileProcessingActivity::class.java))
+        btnConfirm.isEnabled = counter > 0
     }
 
     override fun onCancelChooser() {

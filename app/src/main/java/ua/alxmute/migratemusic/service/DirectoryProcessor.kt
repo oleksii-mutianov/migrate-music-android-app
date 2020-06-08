@@ -14,6 +14,9 @@ class DirectoryProcessor
         return getMusicFromDirectory(File(directory))
     }
 
+    fun countMusicFromDirectory(directory: String): Int {
+        return countMusicFromDirectory(File(directory))
+    }
     private fun getMusicFromDirectory(root: File): List<LocalTrackDto> {
 
         val tracks = ArrayList<LocalTrackDto>()
@@ -23,7 +26,7 @@ class DirectoryProcessor
                 tracks.addAll(getMusicFromDirectory(file))
             } else {
                 val name = file.absolutePath
-                if (name.substringAfterLast('.') == "mp3") {
+                if (isMediaFile(name)) {
                     metadataRetriever.setDataSource(name)
 
                     val author = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)
@@ -36,6 +39,24 @@ class DirectoryProcessor
 
         return tracks
     }
+
+    private fun countMusicFromDirectory(root: File): Int {
+        var counter = 0
+
+        for (file in root.listFiles()!!) {
+            if (file.isDirectory) {
+                counter += countMusicFromDirectory(file)
+            } else {
+                if (isMediaFile(file.absolutePath)) {
+                    counter++
+                }
+            }
+        }
+
+        return counter
+    }
+
+    private fun isMediaFile(name: String) = name.substringAfterLast('.') == "mp3"
 
 
 }
