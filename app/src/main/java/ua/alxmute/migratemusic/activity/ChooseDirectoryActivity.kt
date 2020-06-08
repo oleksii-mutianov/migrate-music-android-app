@@ -56,6 +56,8 @@ class ChooseDirectoryActivity() : DaggerAppCompatActivity(),
         textDirectory.text = path
         val counter = directoryProcessor.countMusicFromDirectory(path)
         trackFoundCounter.text = resources.getString(R.string.track_counter, counter)
+
+        btnConfirm.isEnabled = counter > 0
     }
 
     override fun onCancelChooser() {
