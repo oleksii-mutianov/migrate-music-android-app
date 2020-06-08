@@ -10,4 +10,6 @@ interface ChooseMusicServicePresenter {
 
     fun onDeezerLoginClick()
 
+    fun onYoutubeMusicLoginClick()
+
 }

@@ -1,4 +1,4 @@
-package ua.alxmute.migratemusic.auth.deezer
+package ua.alxmute.migratemusic.auth
 
 import ua.alxmute.migratemusic.service.LoginListener
 
