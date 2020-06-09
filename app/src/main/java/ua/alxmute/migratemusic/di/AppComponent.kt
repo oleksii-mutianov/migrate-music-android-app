@@ -15,6 +15,7 @@ import javax.inject.Singleton
     modules = [
         AndroidSupportInjectionModule::class,
         ActivityBuilder::class,
+        AuthClientModule::class,
         AddTrackChainModule::class,
         DirectoryProcessorModule::class,
         MusicServiceStrategyModule::class,

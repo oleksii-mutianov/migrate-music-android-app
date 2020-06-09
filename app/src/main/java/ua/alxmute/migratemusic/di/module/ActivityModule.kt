@@ -11,8 +11,9 @@ import ua.alxmute.migratemusic.activity.presenter.FileProcessingPresenter
 import ua.alxmute.migratemusic.activity.presenter.FileProcessingPresenterImpl
 import ua.alxmute.migratemusic.activity.view.ChooseMusicServiceView
 import ua.alxmute.migratemusic.activity.view.FileProcessingView
-import ua.alxmute.migratemusic.auth.deezer.DeezerAuthClient
+import ua.alxmute.migratemusic.auth.AuthClient
 import ua.alxmute.migratemusic.data.ContextHolder
+import ua.alxmute.migratemusic.data.MusicServiceName
 import ua.alxmute.migratemusic.service.DirectoryProcessor
 import ua.alxmute.migratemusic.service.MusicProcessorService
 
@@ -36,13 +37,14 @@ abstract class ActivityModule {
             musicProcessorService: MusicProcessorService
         ): FileProcessingPresenter = FileProcessingPresenterImpl(view, contextHolder, directoryProcessor, musicProcessorService)
 
+        @JvmSuppressWildcards
         @JvmStatic
         @Provides
         fun chooseMusicServicePresenter(
             chooseMusicServiceView: ChooseMusicServiceView,
             contextHolder: ContextHolder,
-            deezerAuthClient: DeezerAuthClient
-        ): ChooseMusicServicePresenter = ChooseMusicServicePresenterImpl(chooseMusicServiceView, contextHolder, deezerAuthClient)
+            authClients: Map<MusicServiceName, AuthClient>
+        ): ChooseMusicServicePresenter = ChooseMusicServicePresenterImpl(chooseMusicServiceView, contextHolder, authClients)
     }
 
 }

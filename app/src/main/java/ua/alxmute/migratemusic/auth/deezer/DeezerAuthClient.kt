@@ -7,11 +7,9 @@ import ua.alxmute.migratemusic.activity.presenter.ChooseMusicServicePresenterImp
 import ua.alxmute.migratemusic.auth.AuthClient
 import ua.alxmute.migratemusic.data.MusicServiceName
 import ua.alxmute.migratemusic.service.LoginListener
-import javax.inject.Inject
 import kotlin.concurrent.thread
 
-class DeezerAuthClient
-@Inject constructor(
+class DeezerAuthClient(
     private val httpClient: OkHttpClient,
     private val gson: Gson
 ) : AuthClient {
