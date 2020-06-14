@@ -1,10 +1,10 @@
 package ua.alxmute.migratemusic.service
 
-import android.util.Log
 import ua.alxmute.migratemusic.chain.AddTrackChain
 import ua.alxmute.migratemusic.data.ContextHolder
 import ua.alxmute.migratemusic.data.LocalTrackDto
 import ua.alxmute.migratemusic.data.MusicServiceName
+import ua.alxmute.migratemusic.data.ProcessedTrackDto
 import ua.alxmute.migratemusic.strategy.MusicServiceStrategy
 
 class MusicProcessorService(
@@ -12,10 +12,10 @@ class MusicProcessorService(
     private val contextHolder: ContextHolder,
     private val addTrackChain: AddTrackChain
 ) {
-
+    var failureCounter = 0
     fun addTracks(
         tracksToProcess: List<LocalTrackDto>,
-        processedTracks: MutableList<LocalTrackDto>,
+        processedTracks: MutableList<ProcessedTrackDto>,
         listener: TrackProcessingListener
     ) {
 
@@ -23,18 +23,23 @@ class MusicProcessorService(
 
         tracksToProcess.forEach { localTrackDto ->
             val result: Boolean = addTrackChain.handle(localTrackDto, musicServiceStrategy)
-            if (result) {
-                processedTracks.add(localTrackDto)
-                Log.d("success", "${localTrackDto.author} ${localTrackDto.title}")
-            } else {
-                // TODO: add failed tracks to separate list
-                processedTracks.add(localTrackDto)
-                Log.d("failure", "${localTrackDto.fileName} (${localTrackDto.author} ${localTrackDto.title})")
+            processedTracks.add(
+                ProcessedTrackDto(
+                    localTrackDto.title,
+                    localTrackDto.author,
+                    localTrackDto.fileName,
+                    !result
+                )
+            )
+
+            if (!result) {
+                failureCounter++
             }
 
-            listener.onTrackProcessed(processedTracks.size, tracksToProcess.size)
+            listener.onTrackProcessed(processedTracks.size, tracksToProcess.size, failureCounter)
 
         }
+        failureCounter = 0
     }
 
 }

@@ -1,7 +1,7 @@
 package ua.alxmute.migratemusic.activity.view
 
 import android.content.res.Resources
-import ua.alxmute.migratemusic.data.LocalTrackDto
+import ua.alxmute.migratemusic.data.ProcessedTrackDto
 
 interface FileProcessingView {
 
@@ -11,6 +11,8 @@ interface FileProcessingView {
 
     fun getResources(): Resources
 
-    fun getListForProcessedTracks(): MutableList<LocalTrackDto>
+    fun getListForProcessedTracks(): MutableList<ProcessedTrackDto>
+
+    fun setFailureTrackCounter(counter: String)
 
 }

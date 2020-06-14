@@ -19,9 +19,12 @@ class FileProcessingPresenterImpl(
         musicProcessorService.addTracks(tracksToProcess, view.getListForProcessedTracks(), this)
     }
 
-    override fun onTrackProcessed(processedSize: Int, totalSize: Int) {
+    override fun onTrackProcessed(processedSize: Int, totalSize: Int, failureCounter: Int) {
         view.setTrackCounter(
             view.getResources().getString(R.string.processed_tracks, processedSize, totalSize)
+        )
+        view.setFailureTrackCounter(
+            view.getResources().getString(R.string.failureCounter, failureCounter)
         )
         view.refreshList()
     }

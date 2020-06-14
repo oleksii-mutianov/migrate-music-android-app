@@ -7,5 +7,9 @@
     android:layout_weight="1"
     android:drawableRight="@drawable/success"
     android:padding="15dp"
+    android:layout_gravity="top"
+    android:gravity="top"
+    android:tag="success"
     android:text="Linkin Park - Numb"
     android:textSize="16sp" />
+

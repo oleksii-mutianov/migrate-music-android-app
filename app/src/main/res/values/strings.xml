@@ -9,5 +9,6 @@
     <string name="track_counter">Found %d</string>
     <string name="directory_selected">Directory Selected:</string>
     <string name="startBtn">Start</string>
+    <string name="failureCounter">Show %d failed tracks</string>
 
 </resources>
