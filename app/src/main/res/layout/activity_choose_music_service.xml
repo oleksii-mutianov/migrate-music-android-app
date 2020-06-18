@@ -62,6 +62,7 @@
                 android:layout_height="@dimen/music_service_btn_height"
                 android:layout_marginBottom="@dimen/music_service_btn_margin_bot"
                 android:backgroundTint="#D50000"
+                android:onClick="onYoutubeMusicLoginClick"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/youtube_music" />
 

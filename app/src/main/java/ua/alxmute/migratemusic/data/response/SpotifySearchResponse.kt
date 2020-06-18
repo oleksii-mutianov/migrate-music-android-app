@@ -1,4 +1,4 @@
-package ua.alxmute.migratemusic.data
+package ua.alxmute.migratemusic.data.response
 
 data class SpotifySearchResponse(
     val tracks: TracksWrapper

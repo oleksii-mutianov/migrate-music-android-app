@@ -13,6 +13,7 @@ import ua.alxmute.migratemusic.service.MusicProcessorService
 import ua.alxmute.migratemusic.strategy.DeezerMusicServiceStrategy
 import ua.alxmute.migratemusic.strategy.MusicServiceStrategy
 import ua.alxmute.migratemusic.strategy.SpotifyMusicServiceStrategy
+import ua.alxmute.migratemusic.strategy.YoutubeMusicServiceStrategy
 import javax.inject.Singleton
 
 @Module
@@ -37,6 +38,16 @@ class MusicServiceStrategyModule {
         httpClient: OkHttpClient,
         gson: Gson
     ): MusicServiceStrategy = DeezerMusicServiceStrategy(contextHolder, httpClient, gson)
+
+    @IntoMap
+    @Provides
+    @Singleton
+    @MusicServiceNameKey(MusicServiceName.YOUTUBE_MUSIC)
+    fun youtubeMusicServiceStrategy(
+        contextHolder: ContextHolder,
+        httpClient: OkHttpClient,
+        gson: Gson
+    ): MusicServiceStrategy = YoutubeMusicServiceStrategy(contextHolder, httpClient, gson)
 
     @Provides
     @Singleton

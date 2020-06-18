@@ -8,16 +8,16 @@ import com.spotify.sdk.android.authentication.AuthenticationResponse
 import ua.alxmute.migratemusic.R
 import ua.alxmute.migratemusic.activity.ChooseDirectoryActivity
 import ua.alxmute.migratemusic.activity.view.ChooseMusicServiceView
+import ua.alxmute.migratemusic.auth.AuthClient
 import ua.alxmute.migratemusic.auth.LoginDialog
-import ua.alxmute.migratemusic.auth.deezer.DeezerAuthClient
 import ua.alxmute.migratemusic.data.ContextHolder
 import ua.alxmute.migratemusic.data.MusicServiceName
 import ua.alxmute.migratemusic.service.LoginListener
 
 class ChooseMusicServicePresenterImpl(
-    val view: ChooseMusicServiceView,
-    val contextHolder: ContextHolder,
-    val deezerAuthClient: DeezerAuthClient
+    private val view: ChooseMusicServiceView,
+    private val contextHolder: ContextHolder,
+    private val authClients: Map<MusicServiceName, AuthClient>
 ) : ChooseMusicServicePresenter, LoginListener {
 
     companion object {
@@ -25,6 +25,8 @@ class ChooseMusicServicePresenterImpl(
         const val SPOTIFY_AUTH_TOKEN_REQUEST_CODE = 0x10
 
         const val DEEZER_CLIENT_ID = "417902"
+
+        const val YOUTUBE_MUSIC_CLIENT_ID = "371716897364-c5igj0m29nh8vgn94bo0bgta78hhvrp1.apps.googleusercontent.com"
     }
 
     override fun onSpotifyLoginClick() {
@@ -55,18 +57,24 @@ class ChooseMusicServicePresenterImpl(
         }
     }
 
-    override fun onDeezerLoginClick() {
-        LoginDialog(
-            view.getActivity(),
-            "https://connect.deezer.com/oauth/auth.php?app_id=$DEEZER_CLIENT_ID&redirect_uri=https://callback&perms=manage_library",
-            deezerAuthClient,
-            this
-        ).show()
-    }
+    override fun onDeezerLoginClick() = LoginDialog(
+        view.getActivity(),
+        "https://connect.deezer.com/oauth/auth.php?app_id=$DEEZER_CLIENT_ID&redirect_uri=https://callback&perms=manage_library",
+        authClients.getValue(MusicServiceName.DEEZER),
+        this
+    ).show()
 
-    override fun onLoggedIn(accessToken: String) {
+    override fun onYoutubeMusicLoginClick() = LoginDialog(
+        view.getActivity(),
+        "https://accounts.google.com/o/oauth2/auth?response_type=token&client_id=$YOUTUBE_MUSIC_CLIENT_ID"
+                + "&scope=https://www.googleapis.com/auth/youtube&redirect_uri=http://migratemusic-callback.com",
+        authClients.getValue(MusicServiceName.YOUTUBE_MUSIC),
+        this
+    ).show()
+
+    override fun onLoggedIn(accessToken: String, musicServiceName: MusicServiceName) {
         contextHolder.token = accessToken
-        contextHolder.musicServiceName = MusicServiceName.DEEZER
+        contextHolder.musicServiceName = musicServiceName
         startChooseDirectoryActivity()
     }
 

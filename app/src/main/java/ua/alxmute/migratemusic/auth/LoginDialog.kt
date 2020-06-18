@@ -14,7 +14,6 @@ import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import ua.alxmute.migratemusic.R
-import ua.alxmute.migratemusic.auth.deezer.AuthClient
 import ua.alxmute.migratemusic.service.LoginListener
 
 class LoginDialog(
@@ -50,10 +49,11 @@ class LoginDialog(
         }
 
         val webView = findViewById<WebView>(R.id.login_webview)
-        val mWebViewContainer =
-            findViewById<LinearLayout>(R.id.login_webview_container)
+        val mWebViewContainer = findViewById<LinearLayout>(R.id.login_webview_container)
 
-        webView.settings.javaScriptEnabled = true
+        val settings = webView.settings
+        settings.javaScriptEnabled = true
+        settings.userAgentString = settings.userAgentString.replace("; wv", "")
 
         webView.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView, url: String) {
@@ -65,6 +65,9 @@ class LoginDialog(
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 if (url.contains("code")) {
                     authClient.onComplete(url.substringAfterLast("code="), loginListener)
+                    dismiss()
+                } else if (url.contains("access_token")) {
+                    authClient.onComplete(url.substringAfter("access_token=").substringBefore("&"), loginListener)
                     dismiss()
                 }
 

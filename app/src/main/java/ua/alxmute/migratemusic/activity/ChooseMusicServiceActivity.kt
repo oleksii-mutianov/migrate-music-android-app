@@ -37,4 +37,8 @@ class ChooseMusicServiceActivity : DaggerAppCompatActivity(), ChooseMusicService
         chooseMusicServicePresenter.onDeezerLoginClick()
     }
 
+    fun onYoutubeMusicLoginClick(view: View) {
+        chooseMusicServicePresenter.onYoutubeMusicLoginClick()
+    }
+
 }
