@@ -10,20 +10,19 @@ import ua.alxmute.migratemusic.service.JSON
 
 object DeezerMusicServiceStrategy : MusicServiceStrategy {
 
-    override fun requestTrack(searchQuery: String): ServiceTrack {
+    override fun requestTrack(searchQuery: String): ServiceTrack? {
 
         val response =
             HttpClient.get("https://api.deezer.com/search?q=$searchQuery&limit=1&access_token=${ContextHolder.token}")
 
         if (response.isSuccessful) {
             val searchResponse = JSON.fromJson(response.json(), DeezerSearchResponse::class)
-
             searchResponse.data.firstOrNull()?.let {
-                return ServiceTrack(searchResponse.total, it.id, it.title, it.artist.name)
+                return ServiceTrack(it.id, it.title, it.artist.name)
             }
         }
 
-        return ServiceTrack(0)
+        return null
     }
 
     override fun addTrack(trackId: String): Boolean {

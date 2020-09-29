@@ -29,8 +29,7 @@ class ChooseDirectoryActivity : AppCompatActivity() {
         }
 
         btnChoose.setOnClickListener {
-            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
-            intent.addCategory(Intent.CATEGORY_DEFAULT)
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply { addCategory(Intent.CATEGORY_DEFAULT) }
             startActivityForResult(
                 Intent.createChooser(intent, "Choose directory"),
                 CHOOSE_DIR_REQ_CODE

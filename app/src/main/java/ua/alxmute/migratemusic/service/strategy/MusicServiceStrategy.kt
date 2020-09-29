@@ -5,7 +5,7 @@ import ua.alxmute.migratemusic.data.ServiceTrack
 
 interface MusicServiceStrategy {
 
-    fun requestTrack(searchQuery: String): ServiceTrack
+    fun requestTrack(searchQuery: String): ServiceTrack?
 
     fun addTrack(trackId: String): Boolean
 

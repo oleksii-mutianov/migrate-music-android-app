@@ -15,8 +15,7 @@ class FileProcessingActivity : AppCompatActivity(), FileProcessingView {
 
     override val processedTracks = mutableListOf<LocalTrackDto>()
 
-    private val trackRecyclerViewAdapter: TrackRecyclerViewAdapter =
-        TrackRecyclerViewAdapter(processedTracks, this)
+    private val trackRecyclerViewAdapter: TrackRecyclerViewAdapter = TrackRecyclerViewAdapter(processedTracks, this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

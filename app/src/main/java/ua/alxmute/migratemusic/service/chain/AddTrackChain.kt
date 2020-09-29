@@ -18,20 +18,15 @@ abstract class AddTrackChain {
         val searchQuery = getQueryString(localTrackDto).replace(" ", "+")
 
         if (searchQuery.isNotBlank()) {
-            val foundTracks = musicServiceStrategy.requestTrack(searchQuery)
-            if ((foundTracks.total > 0)) {
-                return musicServiceStrategy.addTrack(foundTracks.id)
+            musicServiceStrategy.requestTrack(searchQuery)?.let { track ->
+                return musicServiceStrategy.addTrack(track.id)
             }
         }
 
         return handleNext(localTrackDto, musicServiceStrategy)
     }
 
-    private fun handleNext(
-        localTrackDto: LocalTrackDto,
-        musicServiceStrategy: MusicServiceStrategy
-    ): Boolean {
-        return next?.handle(localTrackDto, musicServiceStrategy) ?: false
-    }
+    private fun handleNext(localTrackDto: LocalTrackDto, musicServiceStrategy: MusicServiceStrategy) =
+        next?.handle(localTrackDto, musicServiceStrategy) ?: false
 
 }
