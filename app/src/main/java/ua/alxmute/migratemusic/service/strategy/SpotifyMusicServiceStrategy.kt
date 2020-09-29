@@ -10,7 +10,7 @@ import ua.alxmute.migratemusic.service.JSON
 
 object SpotifyMusicServiceStrategy : MusicServiceStrategy {
 
-    override fun requestTrack(searchQuery: String): ServiceTrack {
+    override fun requestTrack(searchQuery: String): ServiceTrack? {
 
         val response = HttpClient.get(
             "https://api.spotify.com/v1/search?type=track&q=$searchQuery&limit=1",
@@ -19,13 +19,12 @@ object SpotifyMusicServiceStrategy : MusicServiceStrategy {
 
         if (response.isSuccessful) {
             val searchResponse = JSON.fromJson(response.json(), SpotifySearchResponse::class)
-
             searchResponse.tracks.items.firstOrNull()?.let {
-                return ServiceTrack(searchResponse.tracks.total, it.id, it.name, it.artists[0].name)
+                return ServiceTrack(it.id, it.name, it.artists[0].name)
             }
         }
 
-        return ServiceTrack(0)
+        return null
     }
 
     override fun addTrack(trackId: String): Boolean {

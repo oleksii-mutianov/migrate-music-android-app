@@ -17,22 +17,19 @@ object MusicProcessorService {
 
         val musicServiceStrategy = MusicServiceStrategyFactory[ContextHolder.musicServiceName]
 
-        tracksToProcess.forEach { localTrackDto ->
-            val result: Boolean = AddTrackChainFactory.handle(localTrackDto, musicServiceStrategy)
+        tracksToProcess.forEach { track ->
+            val result: Boolean = AddTrackChainFactory.handle(track, musicServiceStrategy)
+
+            // TODO: discover what to do with not migrated tracks
             if (result) {
-                processedTracks.add(localTrackDto)
-                Log.d("success", "${localTrackDto.author} ${localTrackDto.title}")
+                Log.d("success", "${track.author} ${track.title}")
             } else {
-                // TODO: add failed tracks to separate list
-//                processedTracks.add(localTrackDto)
-                Log.d(
-                    "failure",
-                    "${localTrackDto.fileName} (${localTrackDto.author} ${localTrackDto.title})"
-                )
+                Log.d("failure", "${track.fileName} (${track.author} ${track.title})")
             }
 
-            listener.onTrackProcessed(processedTracks.size, tracksToProcess.size)
+            processedTracks.add(track)
 
+            listener.onTrackProcessed(processedTracks.size, tracksToProcess.size)
         }
     }
 
