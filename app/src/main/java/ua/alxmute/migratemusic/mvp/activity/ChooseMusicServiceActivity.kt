@@ -19,13 +19,21 @@ class ChooseMusicServiceActivity : AppCompatActivity(), ChooseMusicServiceView {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        ChooseMusicServicePresenter.onSpotifyActivityResult(requestCode, resultCode, data)
+        ChooseMusicServicePresenter.onLoginActivityResult(requestCode, resultCode, data)
     }
 
     override fun getActivity(): Activity = this
 
     fun onSpotifyLoginClick(view: View) {
         ChooseMusicServicePresenter.onSpotifyLoginClick()
+    }
+
+    fun onDeezerLoginClick(view: View) {
+        ChooseMusicServicePresenter.onDeezerLoginClick()
+    }
+
+    fun onYoutubeMusicLoginClick(view: View) {
+        ChooseMusicServicePresenter.onYoutubeMusicLoginClick()
     }
 
 }

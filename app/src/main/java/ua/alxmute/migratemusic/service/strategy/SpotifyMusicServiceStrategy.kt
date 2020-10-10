@@ -18,7 +18,7 @@ object SpotifyMusicServiceStrategy : MusicServiceStrategy {
         )
 
         if (response.isSuccessful) {
-            val searchResponse = JSON.fromJson(response.json(), SpotifySearchResponse::class)
+            val searchResponse: SpotifySearchResponse = JSON.fromJson(response.json())
             searchResponse.tracks.items.firstOrNull()?.let {
                 return ServiceTrack(it.id, it.name, it.artists[0].name)
             }
