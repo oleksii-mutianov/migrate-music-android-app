@@ -18,7 +18,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package ua.alxmute.auth
+package ua.alxmute.migratemusic.auth
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -35,10 +35,11 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import ua.alxmute.auth.constants.REDIRECT_URI
-import ua.alxmute.auth.data.AuthRequest
-import ua.alxmute.auth.data.AuthResponse
-import ua.alxmute.auth.handler.AuthorizationHandler
+import ua.alxmute.migratemusic.R
+import ua.alxmute.migratemusic.auth.constants.REDIRECT_URI
+import ua.alxmute.migratemusic.auth.data.AuthRequest
+import ua.alxmute.migratemusic.auth.data.AuthResponse
+import ua.alxmute.migratemusic.auth.handler.AuthorizationHandler
 import java.util.*
 
 class LoginDialog(contextActivity: Activity, request: AuthRequest) : Dialog(contextActivity, DEFAULT_THEME) {

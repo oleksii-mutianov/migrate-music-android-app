@@ -18,11 +18,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package ua.alxmute.auth.handler
+package ua.alxmute.migratemusic.auth.handler
 
 import android.app.Activity
-import ua.alxmute.auth.data.AuthRequest
-import ua.alxmute.auth.data.AuthResponse
+import ua.alxmute.migratemusic.auth.data.AuthRequest
+import ua.alxmute.migratemusic.auth.data.AuthResponse
 
 interface AuthorizationHandler {
 

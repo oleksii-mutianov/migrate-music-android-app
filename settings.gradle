@@ -1,3 +1,2 @@
-include ':auth-lib'
 include ':app'
 rootProject.name = "Music Migration App"

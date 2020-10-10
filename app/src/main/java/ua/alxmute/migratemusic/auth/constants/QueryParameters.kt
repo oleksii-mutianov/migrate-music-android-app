@@ -1,4 +1,4 @@
-package ua.alxmute.auth.constants
+package ua.alxmute.migratemusic.auth.constants
 
 const val APP_ID = "app_id"
 const val CLIENT_ID = "client_id"

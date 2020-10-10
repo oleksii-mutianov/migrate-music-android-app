@@ -18,12 +18,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package ua.alxmute.auth.handler
+package ua.alxmute.migratemusic.auth.handler
 
 import android.app.Activity
 import android.util.Log
-import ua.alxmute.auth.LoginDialog
-import ua.alxmute.auth.data.AuthRequest
+import ua.alxmute.migratemusic.auth.LoginDialog
+import ua.alxmute.migratemusic.auth.data.AuthRequest
 
 class WebViewAuthHandler : AuthorizationHandler {
     companion object {

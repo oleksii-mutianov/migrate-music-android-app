@@ -1,7 +1,7 @@
-package ua.alxmute.auth.data
+package ua.alxmute.migratemusic.auth.data
 
 import android.net.Uri
-import ua.alxmute.auth.constants.*
+import ua.alxmute.migratemusic.auth.constants.*
 import java.io.Serializable
 
 abstract class AuthRequest : Serializable {

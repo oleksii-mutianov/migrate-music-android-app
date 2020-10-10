@@ -5,12 +5,12 @@ import android.net.Uri
 import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationRequest
 import com.spotify.sdk.android.auth.AuthorizationResponse
-import ua.alxmute.auth.AuthClient
-import ua.alxmute.auth.data.DeezerAuthRequest
-import ua.alxmute.auth.data.YoutubeMusicAuthRequest
-import ua.alxmute.auth.getResponse
-import ua.alxmute.auth.openLoginActivity
 import ua.alxmute.migratemusic.R
+import ua.alxmute.migratemusic.auth.AuthClient
+import ua.alxmute.migratemusic.auth.data.DeezerAuthRequest
+import ua.alxmute.migratemusic.auth.data.YoutubeMusicAuthRequest
+import ua.alxmute.migratemusic.auth.getResponse
+import ua.alxmute.migratemusic.auth.openLoginActivity
 import ua.alxmute.migratemusic.data.ContextHolder
 import ua.alxmute.migratemusic.data.MusicServiceName
 import ua.alxmute.migratemusic.mvp.activity.ChooseDirectoryActivity

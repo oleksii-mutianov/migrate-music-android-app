@@ -1,10 +1,10 @@
-package ua.alxmute.auth.data
+package ua.alxmute.migratemusic.auth.data
 
 import android.net.Uri
-import ua.alxmute.auth.constants.ACCESS_TOKEN
-import ua.alxmute.auth.constants.CODE
-import ua.alxmute.auth.constants.DEEZER
-import ua.alxmute.auth.constants.YOUTUBE
+import ua.alxmute.migratemusic.auth.constants.ACCESS_TOKEN
+import ua.alxmute.migratemusic.auth.constants.CODE
+import ua.alxmute.migratemusic.auth.constants.DEEZER
+import ua.alxmute.migratemusic.auth.constants.YOUTUBE
 import java.io.Serializable
 
 open class AuthResponse @JvmOverloads constructor(

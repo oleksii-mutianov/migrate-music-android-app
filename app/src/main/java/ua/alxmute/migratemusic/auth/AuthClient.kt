@@ -18,15 +18,15 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package ua.alxmute.auth
+package ua.alxmute.migratemusic.auth
 
 import android.app.Activity
 import android.content.Intent
 import android.util.Log
-import ua.alxmute.auth.data.AuthRequest
-import ua.alxmute.auth.data.AuthResponse
-import ua.alxmute.auth.handler.AuthorizationHandler
-import ua.alxmute.auth.handler.WebViewAuthHandler
+import ua.alxmute.migratemusic.auth.data.AuthRequest
+import ua.alxmute.migratemusic.auth.data.AuthResponse
+import ua.alxmute.migratemusic.auth.handler.AuthorizationHandler
+import ua.alxmute.migratemusic.auth.handler.WebViewAuthHandler
 
 class AuthClient(
     /**
