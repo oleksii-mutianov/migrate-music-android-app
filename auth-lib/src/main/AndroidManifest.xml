@@ -1,0 +1,11 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ua.alxmute.auth">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application>
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+    </application>
+</manifest>

@@ -5,6 +5,11 @@ import android.net.Uri
 import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationRequest
 import com.spotify.sdk.android.auth.AuthorizationResponse
+import ua.alxmute.auth.AuthClient
+import ua.alxmute.auth.data.DeezerAuthRequest
+import ua.alxmute.auth.data.YoutubeMusicAuthRequest
+import ua.alxmute.auth.getResponse
+import ua.alxmute.auth.openLoginActivity
 import ua.alxmute.migratemusic.R
 import ua.alxmute.migratemusic.data.ContextHolder
 import ua.alxmute.migratemusic.data.MusicServiceName
@@ -17,50 +22,84 @@ object ChooseMusicServicePresenter : LoginListener {
     private const val SPOTIFY_CLIENT_ID = "eff51993ba68441c92f1a1036ef2607e"
     private const val SPOTIFY_AUTH_TOKEN_REQUEST_CODE = 0x10
 
-    var view: ChooseMusicServiceView? = null
+    private const val DEEZER_CLIENT_ID = "417902"
+    private const val DEEZER_AUTH_TOKEN_REQUEST_CODE = 0x11
+
+    private const val YOUTUBE_MUSIC_CLIENT_ID = "371716897364-c5igj0m29nh8vgn94bo0bgta78hhvrp1.apps.googleusercontent.com"
+    private const val YOUTUBE_MUSIC_AUTH_TOKEN_REQUEST_CODE = 0x12
+
+
+    lateinit var view: ChooseMusicServiceView
 
     fun onSpotifyLoginClick() {
-        view?.let {
-            val redirectUri = Uri.Builder()
-                .scheme(it.getString(R.string.com_spotify_sdk_redirect_scheme))
-                .authority(it.getString(R.string.com_spotify_sdk_redirect_host))
-                .build()
+        val redirectUri = Uri.Builder()
+            .scheme(view.getString(R.string.com_spotify_sdk_redirect_scheme))
+            .authority(view.getString(R.string.com_spotify_sdk_redirect_host))
+            .build()
 
-            val request = AuthorizationRequest.Builder(
-                SPOTIFY_CLIENT_ID,
-                AuthorizationResponse.Type.TOKEN,
-                redirectUri.toString()
-            )
-                .setShowDialog(false)
-                .setScopes(arrayOf("user-read-email", "user-library-modify"))
-                .setCampaign("your-campaign-token")
-                .build()
+        val request = AuthorizationRequest.Builder(
+            SPOTIFY_CLIENT_ID,
+            AuthorizationResponse.Type.TOKEN,
+            redirectUri.toString()
+        )
+            .setShowDialog(false)
+            .setScopes(arrayOf("user-read-email", "user-library-modify"))
+            .setCampaign("your-campaign-token")
+            .build()
 
-            AuthorizationClient.openLoginActivity(
-                it.getActivity(),
-                SPOTIFY_AUTH_TOKEN_REQUEST_CODE,
-                request
-            )
-        }
+        AuthorizationClient.openLoginActivity(
+            view.getActivity(),
+            SPOTIFY_AUTH_TOKEN_REQUEST_CODE,
+            request
+        )
     }
 
-    fun onSpotifyActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == SPOTIFY_AUTH_TOKEN_REQUEST_CODE) {
-            val response = AuthorizationClient.getResponse(resultCode, data)
-            if (response.type != AuthorizationResponse.Type.EMPTY) {
-                ContextHolder.token = response.accessToken
-                ContextHolder.musicServiceName = MusicServiceName.SPOTIFY
-                startChooseDirectoryActivity()
+    fun onLoginActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            SPOTIFY_AUTH_TOKEN_REQUEST_CODE -> {
+                val response = AuthorizationClient.getResponse(resultCode, data)
+                if (response.type != AuthorizationResponse.Type.EMPTY) {
+                    ContextHolder.token = response.accessToken
+                    ContextHolder.musicServiceName = MusicServiceName.SPOTIFY
+                    startChooseDirectoryActivity()
+                }
+            }
+            DEEZER_AUTH_TOKEN_REQUEST_CODE -> {
+                val response = AuthClient.getResponse(resultCode, data)
+                TODO("WE ARE IN DEEZER!")
+            }
+            YOUTUBE_MUSIC_AUTH_TOKEN_REQUEST_CODE -> {
+                val response = AuthClient.getResponse(resultCode, data)
+                TODO("WE ARE IN YOUTUBE!")
             }
         }
     }
 
     fun onDeezerLoginClick() {
-        TODO("Not yet implemented")
+        val authRequest = DeezerAuthRequest(
+            DEEZER_CLIENT_ID,
+            "https://callback",
+            "manage_library"
+        )
+
+        AuthClient.openLoginActivity(
+            view.getActivity(),
+            DEEZER_AUTH_TOKEN_REQUEST_CODE,
+            authRequest
+        )
     }
 
     fun onYoutubeMusicLoginClick() {
-        TODO("Not yet implemented")
+        val authRequest = YoutubeMusicAuthRequest(
+            YOUTUBE_MUSIC_CLIENT_ID,
+            "http://migratemusic-callback.com",
+            "https://www.googleapis.com/auth/youtube"
+        )
+        AuthClient.openLoginActivity(
+            view.getActivity(),
+            YOUTUBE_MUSIC_AUTH_TOKEN_REQUEST_CODE,
+            authRequest
+        )
     }
 
     override fun onLoggedIn(accessToken: String, musicServiceName: MusicServiceName) {
@@ -68,8 +107,8 @@ object ChooseMusicServicePresenter : LoginListener {
     }
 
     private fun startChooseDirectoryActivity() {
-        view?.getActivity()?.let {
-            it.startActivity(Intent(it, ChooseDirectoryActivity::class.java))
+        view.getActivity().apply {
+            startActivity(Intent(this, ChooseDirectoryActivity::class.java))
         }
     }
 
