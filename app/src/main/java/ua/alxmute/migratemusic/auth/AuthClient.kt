@@ -25,8 +25,13 @@ import android.content.Intent
 import android.util.Log
 import ua.alxmute.migratemusic.auth.data.AuthRequest
 import ua.alxmute.migratemusic.auth.data.AuthResponse
+import ua.alxmute.migratemusic.auth.data.DeezerAuthRequest
 import ua.alxmute.migratemusic.auth.handler.AuthorizationHandler
 import ua.alxmute.migratemusic.auth.handler.WebViewAuthHandler
+import ua.alxmute.migratemusic.service.HttpClient
+import ua.alxmute.migratemusic.service.HttpClient.json
+import ua.alxmute.migratemusic.service.JSON
+import kotlin.concurrent.thread
 
 class AuthClient(
     /**
@@ -115,10 +120,13 @@ class AuthClient(
 
     private fun tryAuthorizationHandler(authHandler: AuthorizationHandler, request: AuthRequest): Boolean {
         authHandler.setOnCompleteListener(object : AuthorizationHandler.OnCompleteListener {
-            // TODO: pass Uri instead of AuthorizationResponse
             override fun onComplete(response: AuthResponse) {
-                // TODO: now we have code, need to get token somewhere
-                Log.i(TAG, String.format("Spotify auth response:%s", response.type.name))
+                Log.i(TAG, String.format("Auth response:%s", response.type.name))
+
+                if (request is DeezerAuthRequest && response.token == null) {
+                    return processDeezerResponse(response, request.appId)
+                }
+
                 sendComplete(authHandler, response)
             }
 
@@ -136,6 +144,20 @@ class AuthClient(
                 )
                 sendComplete(authHandler, response)
             }
+
+            // TODO: can i make it better? maybe i need multiple OnCompleteListeners
+            private fun AuthorizationHandler.OnCompleteListener.processDeezerResponse(response: AuthResponse, appId: String) {
+                thread {
+                    val tokenRequest =
+                        HttpClient.get(
+                            "https://connect.deezer.com/oauth/access_token.php?" +
+                                    "app_id=$appId&secret=2a84c287fd8373a3d1e18af78548fd5c&code=${response.code}&output=json"
+                        ).json()
+
+                    val tokenResponse: DeezerAuthTokenResponse = JSON.fromJson(tokenRequest)
+                    onComplete(AuthResponse(response.type, token = tokenResponse.accessToken))
+                }
+            }
         })
 
         if (!authHandler.start(mLoginActivity, request)) {
@@ -144,6 +166,7 @@ class AuthClient(
         }
         return true
     }
+
 
     private fun closeAuthorizationHandler(authHandler: AuthorizationHandler?) {
         authHandler?.setOnCompleteListener(null)

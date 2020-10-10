@@ -32,9 +32,7 @@ interface AuthorizationHandler {
 
     fun setOnCompleteListener(listener: OnCompleteListener?)
 
-    // TODO: separate OnCompleteListener for each music service
     interface OnCompleteListener {
-        // TODO: pass Uri instead of AuthorizationResponse
         fun onComplete(response: AuthResponse)
 
         fun onCancel()

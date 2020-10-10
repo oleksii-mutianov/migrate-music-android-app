@@ -24,7 +24,7 @@ abstract class AuthRequest : Serializable {
 
 
 class DeezerAuthRequest(
-    appId: String,
+    val appId: String,
     redirectUri: String,
     vararg scopes: String,
 ) : AuthRequest() {

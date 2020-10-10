@@ -7,10 +7,11 @@ import ua.alxmute.migratemusic.auth.constants.DEEZER
 import ua.alxmute.migratemusic.auth.constants.YOUTUBE
 import java.io.Serializable
 
-open class AuthResponse @JvmOverloads constructor(
+open class AuthResponse(
     val type: Type,
     val error: String? = null,
     val code: String? = null,
+    val token: String? = null,
 ) : Serializable {
 
     enum class Type {
@@ -24,7 +25,7 @@ open class AuthResponse @JvmOverloads constructor(
             DEEZER -> AuthResponse(type = Type.CODE, code = uri.getQueryParameter(CODE))
             YOUTUBE -> AuthResponse(
                 type = Type.CODE,
-                code = uri.fragment?.substringAfter("$ACCESS_TOKEN=")?.substringBefore("&")
+                token = uri.fragment?.substringAfter("$ACCESS_TOKEN=")?.substringBefore("&")
             )
             else -> throw RuntimeException("It's not working :(")
         }

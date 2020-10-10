@@ -55,7 +55,7 @@ class LoginActivity : Activity(), AuthClient.AuthorizationClientListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.com_spotify_sdk_login_activity)
+        setContentView(R.layout.login_activity)
         mAuthorizationClient.onCompleteListener = this
 
         val request = intent.getBundleExtra(EXTRA_AUTH_REQUEST)?.getSerializable(REQUEST_KEY) as AuthRequest?

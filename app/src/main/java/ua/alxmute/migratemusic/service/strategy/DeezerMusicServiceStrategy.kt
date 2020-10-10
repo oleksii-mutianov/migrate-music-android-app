@@ -16,7 +16,7 @@ object DeezerMusicServiceStrategy : MusicServiceStrategy {
             HttpClient.get("https://api.deezer.com/search?q=$searchQuery&limit=1&access_token=${ContextHolder.token}")
 
         if (response.isSuccessful) {
-            val searchResponse = JSON.fromJson(response.json(), DeezerSearchResponse::class)
+            val searchResponse: DeezerSearchResponse = JSON.fromJson(response.json())
             searchResponse.data.firstOrNull()?.let {
                 return ServiceTrack(it.id, it.title, it.artist.name)
             }

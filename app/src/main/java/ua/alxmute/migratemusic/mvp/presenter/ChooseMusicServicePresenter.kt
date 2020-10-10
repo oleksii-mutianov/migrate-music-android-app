@@ -7,6 +7,7 @@ import com.spotify.sdk.android.auth.AuthorizationRequest
 import com.spotify.sdk.android.auth.AuthorizationResponse
 import ua.alxmute.migratemusic.R
 import ua.alxmute.migratemusic.auth.AuthClient
+import ua.alxmute.migratemusic.auth.data.AuthResponse
 import ua.alxmute.migratemusic.auth.data.DeezerAuthRequest
 import ua.alxmute.migratemusic.auth.data.YoutubeMusicAuthRequest
 import ua.alxmute.migratemusic.auth.getResponse
@@ -15,9 +16,8 @@ import ua.alxmute.migratemusic.data.ContextHolder
 import ua.alxmute.migratemusic.data.MusicServiceName
 import ua.alxmute.migratemusic.mvp.activity.ChooseDirectoryActivity
 import ua.alxmute.migratemusic.mvp.view.ChooseMusicServiceView
-import ua.alxmute.migratemusic.service.listener.LoginListener
 
-object ChooseMusicServicePresenter : LoginListener {
+object ChooseMusicServicePresenter {
 
     private const val SPOTIFY_CLIENT_ID = "eff51993ba68441c92f1a1036ef2607e"
     private const val SPOTIFY_AUTH_TOKEN_REQUEST_CODE = 0x10
@@ -66,11 +66,19 @@ object ChooseMusicServicePresenter : LoginListener {
             }
             DEEZER_AUTH_TOKEN_REQUEST_CODE -> {
                 val response = AuthClient.getResponse(resultCode, data)
-                TODO("WE ARE IN DEEZER!")
+                if (response.type != AuthResponse.Type.EMPTY) {
+                    ContextHolder.token = response.token!!
+                    ContextHolder.musicServiceName = MusicServiceName.DEEZER
+                    startChooseDirectoryActivity()
+                }
             }
             YOUTUBE_MUSIC_AUTH_TOKEN_REQUEST_CODE -> {
                 val response = AuthClient.getResponse(resultCode, data)
-                TODO("WE ARE IN YOUTUBE!")
+                if (response.type != AuthResponse.Type.EMPTY) {
+                    ContextHolder.token = response.token!!
+                    ContextHolder.musicServiceName = MusicServiceName.YOUTUBE_MUSIC
+                    startChooseDirectoryActivity()
+                }
             }
         }
     }
@@ -100,10 +108,6 @@ object ChooseMusicServicePresenter : LoginListener {
             YOUTUBE_MUSIC_AUTH_TOKEN_REQUEST_CODE,
             authRequest
         )
-    }
-
-    override fun onLoggedIn(accessToken: String, musicServiceName: MusicServiceName) {
-        TODO("Not yet implemented")
     }
 
     private fun startChooseDirectoryActivity() {

@@ -68,7 +68,7 @@ class LoginDialog(contextActivity: Activity, request: AuthRequest) : Dialog(cont
         window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         window?.setBackgroundDrawableResource(android.R.drawable.screen_background_dark_transparent)
 
-        setContentView(R.layout.com_spotify_sdk_login_dialog)
+        setContentView(R.layout.login_dialog)
 
         setLayoutSize()
 
