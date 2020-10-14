@@ -17,7 +17,7 @@ object DeezerMusicServiceStrategy : MusicServiceStrategy {
 
         if (response.isSuccessful) {
             val searchResponse: DeezerSearchResponse = JSON.fromJson(response.json())
-            searchResponse.data.firstOrNull()?.let {
+            searchResponse.data?.firstOrNull()?.let {
                 return ServiceTrack(it.id, it.title, it.artist.name)
             }
         }
