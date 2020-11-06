@@ -1,17 +1,19 @@
 package ua.alxmute.migratemusic.service
 
 import android.util.Log
-import ua.alxmute.migratemusic.chain.AddTrackChain
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import ua.alxmute.migratemusic.data.ContextHolder
 import ua.alxmute.migratemusic.data.LocalTrackDto
-import ua.alxmute.migratemusic.data.MusicServiceName
-import ua.alxmute.migratemusic.strategy.MusicServiceStrategy
+import ua.alxmute.migratemusic.service.factory.AddTrackChainFactory
+import ua.alxmute.migratemusic.service.factory.MusicServiceStrategyFactory
+import ua.alxmute.migratemusic.service.listener.TrackProcessingListener
 
-class MusicProcessorService(
-    private val musicServiceStrategies: Map<MusicServiceName, MusicServiceStrategy>,
-    private val contextHolder: ContextHolder,
-    private val addTrackChain: AddTrackChain
-) {
+object MusicProcessorService {
+
+    private val coroutineScope = CoroutineScope(Job() + Dispatchers.Default)
 
     fun addTracks(
         tracksToProcess: List<LocalTrackDto>,
@@ -19,21 +21,23 @@ class MusicProcessorService(
         listener: TrackProcessingListener
     ) {
 
-        val musicServiceStrategy = musicServiceStrategies.getValue(contextHolder.musicServiceName)
+        val musicServiceStrategy = MusicServiceStrategyFactory[ContextHolder.musicServiceName]
 
-        tracksToProcess.forEach { localTrackDto ->
-            val result: Boolean = addTrackChain.handle(localTrackDto, musicServiceStrategy)
-            if (result) {
-                processedTracks.add(localTrackDto)
-                Log.d("success", "${localTrackDto.author} ${localTrackDto.title}")
-            } else {
-                // TODO: add failed tracks to separate list
-                processedTracks.add(localTrackDto)
-                Log.d("failure", "${localTrackDto.fileName} (${localTrackDto.author} ${localTrackDto.title})")
+        tracksToProcess.forEach { track ->
+            coroutineScope.launch {
+                val result: Boolean = AddTrackChainFactory.handle(track, musicServiceStrategy)
+
+                // TODO: discover what to do with not migrated tracks
+                if (result) {
+                    Log.d("success", "${track.author} ${track.title}")
+                } else {
+                    Log.d("failure", "${track.fileName} (${track.author} ${track.title})")
+                }
+
+                processedTracks.add(track)
+
+                listener.onTrackProcessed(processedTracks.size, tracksToProcess.size)
             }
-
-            listener.onTrackProcessed(processedTracks.size, tracksToProcess.size)
-
         }
     }
 

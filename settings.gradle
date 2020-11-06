@@ -1,4 +1,2 @@
-rootProject.name='migrate-music-to-spotify-android-app'
-include ':dir-chooser-lib'
-include ':spotify-auth-release-1.1.0'
 include ':app'
+rootProject.name = "Music Migration App"

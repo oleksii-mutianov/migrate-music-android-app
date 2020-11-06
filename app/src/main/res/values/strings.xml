@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">migrate-music-to-spotify-android-app</string>
+    <string name="app_name">Music Migration App</string>
     <string name="directory_selected_label">Directory selected:</string>
     <string name="none">none</string>
     <string name="btn_choose">Choose music directory</string>
